@@ -37,10 +37,10 @@ To build a virtual marketplace for artisans to:
 1. **Clone the repository**
    git clone https://github.com/KukkikD/WDD430-Group6-Project.git
 
-2. Install dependencies
+2. **Install dependencies**
    npm install
 
-3. Run the development server
+3. **Run the development server**
    npm run dev
 
-Open http://localhost:3000 to view in the browser.
+**Open http://localhost:3000 to view in the browser.
