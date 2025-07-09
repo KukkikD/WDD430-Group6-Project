@@ -35,21 +35,12 @@ To build a virtual marketplace for artisans to:
 ## 📁 **Project Setup**
 
 1. **Clone the repository**
-   ```bash
    git clone https://github.com/KukkikD/WDD430-Group6-Project.git
 
-Install dependencies
+2. Install dependencies
+   npm install
 
- bash
-CopyEdit
-npm install
-
-
-Run the development server
-
- bash
-CopyEdit
-npm run dev
-
+3. Run the development server
+   npm run dev
 
 Open http://localhost:3000 to view in the browser.
