@@ -43,4 +43,4 @@ To build a virtual marketplace for artisans to:
 3. **Run the development server**
    npm run dev
 
-**Open http://localhost:3000 to view in the browser.
+**Open** http://localhost:3000 to view in the browser.
