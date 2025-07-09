@@ -44,3 +44,10 @@ To build a virtual marketplace for artisans to:
    npm run dev
 
 **Open** http://localhost:3000 to view in the browser.
+
+---
+
+##📌 **Project Board**
+See [GitHub Project Board](https://github.com/users/KukkikD/projects/3/views/1) for task assignments and progress tracking.
+
+
