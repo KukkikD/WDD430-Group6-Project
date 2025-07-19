@@ -1,21 +1,16 @@
-import Header from "../components/Header";
-import HeroBanner from "../components/HeroBanner";
-import Categories from "../components/Catergories";
-import FeaturedProducts from "../components/FeaturedProjects";
-import SellerSpotlight from "../components/SellerSpotlight";
-import Footer from "../components/Footer";
+import HeroSection from './LandingPage/HeroSection';
+import Categories from './LandingPage/Categories';
+import FeaturedProducts from './LandingPage/FeaturedProducts';
+import SellerSpotlight from './LandingPage/SellerSpotlight';
 
-
-export default function Home() {
+export default function LandingPage() {
   return (
-    <main className="bg-[#E5E5E5] min-h-screen">
-      <Header />
-      <HeroBanner />
+    <div className="min-h-screen flex flex-col">
+      <HeroSection />
       <Categories />
       <FeaturedProducts />
       <SellerSpotlight />
-      <Footer />
-    </main>
+    </div>
   );
 }
 
