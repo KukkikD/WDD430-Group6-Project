@@ -1,31 +1,46 @@
-'use client';
-
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+import prisma from '@/app/lib/prisma'; 
 
-const sellers = [
-  { id: 1, name: 'Anna Craft', bio: 'Passionate ceramic artist from Italy.', image: '/images/sellers/anna.png' },
-  { id: 2, name: 'Tom Weaver', bio: 'Expert woodworker crafting fine furniture.', image: '/images/sellers/tom.png' },
-];
+export default async function SellerSpotlight() {
+  // fetch all sellers are role = 'seller'
+  const sellers = await prisma.user.findMany({
+    where: { role: 'seller' },
+    select: {
+      id: true,
+      name: true,
+      bio: true,
+      profileImage: true,
+    },
+  });
 
-export default function SellerSpotlight() {
+  // random 3 sellers
+  const shuffled = sellers.sort(() => 0.5 - Math.random());
+  const randomSellers = shuffled.slice(0, 3);
+
   return (
-    <section className="py-12 px-8">
-      <h2 className="text-2xl font-semibold mb-6">Seller Spotlight</h2>
-      <div className="flex gap-8 justify-center flex-wrap">
-        {sellers.map(({ id, name, bio, image }) => (
-          <div key={id} className="border rounded-lg p-6 max-w-xs text-center shadow-md">
+    <section className="bg-white py-12 px-8">
+      <h2 className="text-2xl font-bold text-center mb-8">Seller Spotlight</h2>
+
+      <div className="flex justify-center gap-8 flex-wrap">
+        {randomSellers.map(({ id, name, bio, profileImage }) => (
+          <div
+            key={id}
+            className="bg-gray-100 p-6 rounded-lg shadow-md max-w-xs text-center"
+          >
             <Image
-              src={image}
+              src={profileImage || '/images/placeholder.png'} //fallback seller image
               alt={name}
-              width={96}
-              height={96}
+              width={120}
+              height={120}
               className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
             />
-            <h3 className="font-semibold mb-2">{name}</h3>
-            <p className="text-gray-600 mb-4">{bio}</p>
+
+            <h3 className="text-lg font-semibold mb-2">{name}</h3>
+            <p className="text-sm text-gray-600 mb-4">{bio || 'No bio available.'}</p>
+
             <Link href={`/seller-profile/${id}`}>
-              <button className="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-md font-semibold">
+              <button className="bg-green-800 text-white px-4 py-2 rounded hover:bg-green-900 transition">
                 View Shop
               </button>
             </Link>
