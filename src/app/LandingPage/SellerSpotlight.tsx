@@ -29,7 +29,7 @@ export default async function SellerSpotlight() {
             className="bg-gray-100 p-6 rounded-lg shadow-md max-w-xs text-center"
           >
             <Image
-              src={profileImage || '/images/placeholder.png'} //fallback seller image
+              src={profileImage || '@/public/images/seller/placeholder.png'} //fallback seller image
               alt={name}
               width={120}
               height={120}

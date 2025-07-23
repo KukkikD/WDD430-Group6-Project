@@ -5,62 +5,48 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 export default function Navbar() {
-  // pretend > cartCount corllect no. of item in the cart (pretend value dummy 3 first)
   const [cartCount, setCartCount] = useState(3);
 
   return (
-    <header className="w-full bg-white shadow-md py-4 px-6">
-      <nav className="max-w-7xl mx-auto flex items-center justify-between px-8 py-4">
-        {/* Logo */}
-        <Link href="/">
-          <Image
-            src="/images/logo.png"
-            alt="Handcrafted Haven Logo"
-            width={200}
-            height={100}
-            priority // โหลดโลโก้ก่อน (ถ้าต้องการ)
-          />
-        </Link>
+    <header className="bg-white shadow-md">
+      <div className="max-w-7xl mx-auto w-full px-4 md:px-6 py-4">
+        <nav className="flex items-center justify-between w-full">
+          {/* Left: Logo */}
+          <div className="flex-shrink-0">
+            <Link href="/">
+              <Image
+                src="/images/logo.png"
+                alt="Handcrafted Haven Logo"
+                width={140}
+                height={50}
+                priority
+              />
+            </Link>
+          </div>
 
-        {/* Menu links */}
-        <ul className="flex items-center space-x-6 text-lg">
-          <li>
-            <Link href="/" className="text-gray-700 hover:text-green-800">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link href="/shop" className="text-gray-700 hover:text-green-800">
-              Shop
-            </Link>
-          </li>
-          <li>
-            <Link href="/about" className="text-gray-700 hover:text-green-800">
-              About
-            </Link>
-          </li>
-          <li>
-            <Link href="/seller-profile" className="text-gray-700 hover:text-green-800">
-              Seller Profile
-            </Link>
-          </li>
-          <li>
-            <Link href="/login" className="text-gray-700 hover:text-green-800">
-              Log in
-            </Link>
-          </li>
-        </ul>
+          {/* Center: Menu */}
+          <div className="flex justify-center flex-grow">
+            <ul className="flex-1 flex justify-center gap-6 text-lg text-gray-700">
+              <li className="whitespace-nowrap"><Link href="/" className="text-gray-700 hover:text-green-800 transition-colors duration-200">Home</Link></li>
+              <li className="whitespace-nowrap"><Link href="/shop" className="text-gray-700 hover:text-green-800">Shop</Link></li>
+              <li className="whitespace-nowrap"><Link href="/about" className="text-gray-700 hover:text-green-800">About</Link></li>
+              <li className="whitespace-nowrap"><Link href="/seller-profile" className="text-gray-700 hover:text-green-800">Seller Profile</Link></li>
+              <li className="whitespace-nowrap"><Link href="/login" className="text-gray-700 hover:text-green-800">Log in</Link></li>
+            </ul>
+          </div>
 
-        {/* Cart icon */}
-        <Link
-          href="/cart"
-          className="bg-gray-800 text-black px-4 py-2 rounded flex items-center space-x-2"
-          aria-label={`Cart with ${cartCount} items`}
-        >
-          <span>🛒</span>
-          <span> ({cartCount})</span>
-        </Link>
-      </nav>
+          {/* Right: Cart */}
+          <div className="flex-shrink-0">
+            <Link
+              href="/cart"
+              className="bg-gray-200 text-black px-4 py-2 rounded flex items-center space-x-2 hover:bg-gray-300"
+            >
+              <span>🛒</span>
+              <span>({cartCount})</span>
+            </Link>
+          </div>
+        </nav>
+      </div>
     </header>
   );
 }
