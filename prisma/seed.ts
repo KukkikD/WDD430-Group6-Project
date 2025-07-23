@@ -9,7 +9,7 @@ async function main() {
       password: 'hashedpassword', // will do real hash later
       role: 'seller',
       bio: 'I create beautiful handmade crafts.',
-      profileImage: '/profile.png',
+      profileImage: '@/public/images/sellers/tom.png',
     },
   });
 
@@ -18,7 +18,7 @@ async function main() {
       name: 'Handmade Wooden Bowl',
       description: 'Beautiful wooden bowl crafted by hand.',
       price: 29.99,
-      image: '/bowl.jpg',
+      image: '/images/placeholder.png',
       sellerId: seller.id,
     },
   });
