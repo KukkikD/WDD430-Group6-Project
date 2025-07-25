@@ -4,7 +4,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-800 text-brown py-6 px-8 mt-auto text-sm">
+    <footer className="bg-white-800 text-brown py-6 px-8 mt-auto text-sm shadow-[-6px_-6px_10px_rgba(0,0,0,0.15)]">
       <div className="max-w-7xl mx-auto flex justify-between gap-4">
         {/* Left links */}
         <div className="flex gap-6 flex-wrap">
