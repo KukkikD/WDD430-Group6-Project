@@ -7,9 +7,13 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <HeroSection />
-      <Categories />
-      <FeaturedProducts />
-      <SellerSpotlight />
+      <div className='w-[100%] flex m-[30px] p-4 flex-wrap'>
+        <section  className='w-[70%]'>
+          <Categories />
+          <FeaturedProducts />
+        </section>
+        <SellerSpotlight />
+      </div>
     </div>
   );
 }
