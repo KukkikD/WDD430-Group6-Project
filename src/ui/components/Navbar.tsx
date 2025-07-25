@@ -9,7 +9,7 @@ export default function Navbar() {
 
   return (
     <header className="bg-white shadow-md">
-      <div className="max-w-7xl mx-auto flex flex-wrap w-full px-4 md:px-6 py-4">
+      <div className="max-w-7xl mx-auto flex flex-wrap justify-between w-full px-4 md:px-6 py-4">
           {/* Left: Logo */}
           <div className="flex-shrink-0">
             <Link href="/">
