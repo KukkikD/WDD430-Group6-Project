@@ -19,10 +19,10 @@ export default async function SellerSpotlight() {
   const randomSellers = shuffled.slice(0, 3);
 
   return (
-    <section className="bg-white py-12 px-8">
+    <section className="bg-white py-4 px-4 min-w-[200px] w-[25%] h-[500px]">
       <h2 className="text-2xl font-bold text-center mb-8">Seller Spotlight</h2>
 
-      <div className="flex justify-center gap-8 flex-wrap">
+      <div className="flex justify-center gap-8 flex-wrap h-[500px]">
         {randomSellers.map(({ id, name, bio, profileImage }) => (
           <div
             key={id}
