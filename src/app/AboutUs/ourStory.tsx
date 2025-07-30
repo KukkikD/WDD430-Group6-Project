@@ -1,6 +1,6 @@
 export default function OurStory(){
     return (
-        <div className="flex flex-col text-center p-8 gap-5 bg-[#8f6b5d] mt-3 text-white">
+        <div className="flex flex-col text-center p-8 gap-2 bg-[#8f6b5d] mt-3 text-white">
             <h2 className="text-4xl">
                 Our Story
             </h2>
