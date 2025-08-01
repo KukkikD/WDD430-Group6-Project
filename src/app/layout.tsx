@@ -3,6 +3,8 @@ import { ReactNode } from 'react';
 import Navbar from '@/ui/components/Navbar';
 import Footer from '@/ui/components/Footer';
 
+
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">

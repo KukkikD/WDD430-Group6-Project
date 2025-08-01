@@ -29,8 +29,8 @@ export default function Navbar() {
             <ul className="flex-1 flex flex-wrap justify-center gap-6 text-lg text-gray-700">
               <li className="whitespace-nowrap"><Link href="/" className="text-gray-700 hover:text-yellow-400 transition-colors duration-200">Home</Link></li>
               <li className="whitespace-nowrap"><Link href="/shop" className="text-gray-700 hover:text-yellow-400">Shop</Link></li>
-              <li className="whitespace-nowrap"><Link href="/about" className="text-gray-700 hover:text-yellow-400">About</Link></li>
               <li className="whitespace-nowrap"><Link href="/seller-profile" className="text-gray-700 hover:text-yellow-400">Seller Profile</Link></li>
+              <li className="whitespace-nowrap"><Link href="/AboutUs" className="text-gray-700 hover:text-yellow-400">About Us</Link></li>
               <li className="whitespace-nowrap"><Link href="/login" className="text-gray-700 hover:text-yellow-400">Log in</Link></li>
             </ul>
           </div>
