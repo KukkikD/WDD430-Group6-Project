@@ -13,7 +13,7 @@ export async function verifyToken(req: NextRequest) {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     // Attach user info to request (for use in route handlers)
-    // @ts-ignore
+    // @ts-expect-error
     req.user = decoded;
     return null; // No error
   } catch (err) {
