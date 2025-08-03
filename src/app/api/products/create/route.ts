@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
   if (roleError) return roleError;
 
   const { name, description, price, image } = await req.json();
-  // @ts-ignore
+  // @ts-expect-error
   const user = req.user;
 
   const product = await prisma.product.create({
