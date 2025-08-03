@@ -14,7 +14,6 @@ export default function OurTeam() {
             fullName={team.fullName}
             role={team.projectRole}
             linkedIn={team.linkedIn}
-            image={team.image}
           />
         ))}
       </div>
