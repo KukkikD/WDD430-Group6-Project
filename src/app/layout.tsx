@@ -2,7 +2,6 @@ import './globals.css';
 import { ReactNode } from 'react';
 import Navbar from '@/ui/components/Navbar';
 import Footer from '@/ui/components/Footer';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 

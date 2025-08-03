@@ -1,4 +1,4 @@
-// import FAQ from "./faqs"
+import FAQ from "./faqs"
 import OurMission from "./OurMission"
 import OurStory from "./ourStory"
 import OurTeam from "./ourTeam"
@@ -10,7 +10,7 @@ export default function page(){
                 <OurStory />
                 <OurTeam />
                 <OurMission/>
-                {/* <FAQ /> */}
+                <FAQ />
             </>
         )
 }
