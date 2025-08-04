@@ -13,8 +13,8 @@ const featuredProducts = [
 
 export default function FeaturedProducts() {
   return (
-    <section className="py-12 px-8 bg-gray-50">
-      <h2 className="text-2xl font-semibold text-center mb-6">Featured Products</h2>
+    <section className="bg-gray-50 p-3">
+      <h2 className="text-2xl font-semibold text-left mb-6">Featured Products</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {featuredProducts.map(({ id, name, price, rating, image }) => (
           <div key={id || name} className="bg-white border rounded-lg p-4 shadow-md">

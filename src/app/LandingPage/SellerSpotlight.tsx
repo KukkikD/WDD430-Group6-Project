@@ -4,25 +4,51 @@ import prisma from '@/app/lib/prisma';
 
 export default async function SellerSpotlight() {
   // fetch all sellers are role = 'seller'
-  const sellers = await prisma.user.findMany({
-    where: { role: 'seller' },
-    select: {
-      id: true,
-      name: true,
-      bio: true,
-      profileImage: true,
-    },
-  });
+  let sellers = [];
+  try {
+    sellers = await prisma.user.findMany({
+      where: { role: 'seller' },
+      select: {
+        id: true,
+        name: true,
+        bio: true,
+        profileImage: true,
+      },
+    });
+  } catch (error) {
+    console.error('Database connection error:', error);
+    // Fallback to mock data when database is not available
+    sellers = [
+      {
+        id: '1',
+        name: 'Anna Smith',
+        bio: 'Handcrafted jewelry and accessories',
+        profileImage: '/images/sellers/anna.png',
+      },
+      {
+        id: '2',
+        name: 'Tom Johnson',
+        bio: 'Wooden furniture and home decor',
+        profileImage: '/images/sellers/tom.png',
+      },
+      {
+        id: '3',
+        name: 'Sarah Wilson',
+        bio: 'Handmade ceramics and pottery',
+        profileImage: '/images/sellers/anna.png',
+      },
+    ];
+  }
 
   // random 3 sellers
   const shuffled = sellers.sort(() => 0.5 - Math.random());
   const randomSellers = shuffled.slice(0, 3);
 
   return (
-    <section className="bg-white py-12 px-8">
+    <section className="bg-white py-4 px-4 min-w-[200px] w-[25%] h-[500px]">
       <h2 className="text-2xl font-bold text-center mb-8">Seller Spotlight</h2>
 
-      <div className="flex justify-center gap-8 flex-wrap">
+      <div className="flex justify-center gap-8 flex-wrap h-[500px]">
         {randomSellers.map(({ id, name, bio, profileImage }) => (
           <div
             key={id}

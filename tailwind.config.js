@@ -6,7 +6,13 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors:{
+          buttonPrimary: '#383838',
+          buttonPecondaryHover:'#f2f2f2',
+          browny: '#8f6b5d',
+      }
+    },
   },
   plugins: [],
 }

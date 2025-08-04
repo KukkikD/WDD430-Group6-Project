@@ -1,7 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "tailwindcss";
+
 
 .hero-bg {
   background-image: url('/images/hero.jpg');
+}
+
+@layer utilities{
+  h1{
+     font-size: larger;
+  }
 }
