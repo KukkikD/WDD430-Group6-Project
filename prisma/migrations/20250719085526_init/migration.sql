@@ -18,6 +18,7 @@ CREATE TABLE "Product" (
     "description" TEXT NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
     "image" TEXT NOT NULL,
+    "category" TEXT NOT NULL DEFAULT 'Uncategorized',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "sellerId" TEXT NOT NULL,
