@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 export default function Navbar() {
-  const [cartCount, setCartCount] = useState(3); // TODO: setCartCount will be used when implementing cart updates
+  const [cartCount] = useState(3); // TODO: "setCartCount" will be used when implementing cart updates
 
   return (
     <header className="bg-white shadow-md">

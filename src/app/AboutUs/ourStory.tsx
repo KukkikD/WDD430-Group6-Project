@@ -6,7 +6,7 @@ export default function OurStory(){
             </h2>
             <p className="size-[50%] m-auto">
                 Handcrafted Haven was born from a simple idea: 
-                to create a space where the world's most talented artisans 
+                to create a space where the world&apos;s most talented artisans 
                 could share their creations and stories. In a world of mass production, 
                 we felt a deep-seated need to reconnect with the human touch.
             </p>
