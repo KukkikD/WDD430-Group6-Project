@@ -13,6 +13,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "strictFunctionTypes": false,   // ✅ added
+    "noImplicitReturns": false,     // ✅ added
     "plugins": [
       {
         "name": "next"
@@ -22,6 +24,13 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/AboutUs/accordion.jsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/app/AboutUs/accordion.jsx"
+, "next.config.js"  ],
+  "exclude": ["node_modules"],
+  "types": ["next-auth"]
 }

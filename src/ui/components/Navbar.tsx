@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 export default function Navbar() {
-  const [cartCount, setCartCount] = useState(3);
+  const [cartCount, setCartCount] = useState(3); // TODO: setCartCount will be used when implementing cart updates
 
   return (
     <header className="bg-white shadow-md">
@@ -19,10 +19,11 @@ export default function Navbar() {
                 width={140}
                 height={50}
                 priority
+                style={{ height: 'auto' }}
               />
             </Link>
           </div>
-        <nav className="flex flex-wrap items-center justify-end w-[70%] gap-4">
+        <nav className="flex flex-wrap items-center justify-end w-[70%] gap-6">
 
           {/* Center: Menu */}
           <div className="flex justify-center">
@@ -30,6 +31,7 @@ export default function Navbar() {
               <li className="whitespace-nowrap"><Link href="/" className="text-gray-700 hover:text-yellow-400 transition-colors duration-200">Home</Link></li>
               <li className="whitespace-nowrap"><Link href="/shop" className="text-gray-700 hover:text-yellow-400">Shop</Link></li>
               <li className="whitespace-nowrap"><Link href="/seller-profile" className="text-gray-700 hover:text-yellow-400">Seller Profile</Link></li>
+              <li className="whitespace-nowrap"><Link href="/seller/dashboard" className="text-gray-700 hover:text-yellow-400">Dashboard</Link></li> {/* 👈 add here */}
               <li className="whitespace-nowrap"><Link href="/AboutUs" className="text-gray-700 hover:text-yellow-400">About Us</Link></li>
               <li className="whitespace-nowrap"><Link href="/login" className="text-gray-700 hover:text-yellow-400">Log in</Link></li>
             </ul>
