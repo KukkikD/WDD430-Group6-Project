@@ -13,10 +13,10 @@ export async function verifyToken(req: NextRequest) {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     // Attach user info to request (for use in route handlers)
-    // @ts-expect-error
+    // @ts-expect-error - temporarily bypass due to type inference issue
     req.user = decoded;
     return null; // No error
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
   }
-} 
+}
