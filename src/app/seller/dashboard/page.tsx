@@ -2,6 +2,7 @@
 
 import prisma from "@/app/lib/prisma";
 import SellerDashboardClient from "./SellerDashboardClient";
+import { Suspense } from "react"; // ✅ Import Suspense for client-side rendering
 
 // TODO: Auth Integration Instructions
 // Currently, we are using a mock session object for demonstration.
@@ -29,11 +30,11 @@ export default async function SellerDashboard() {
   });
 
   return (
-    <SellerDashboardClient
-      products={products}
-      sellerName={session.user.name}
-    />
+    <Suspense fallback={<div>Loading dashboard...</div>}> {/* ✅ Wrap in Suspense to satisfy useSearchParams hook inside client components */}
+      <SellerDashboardClient
+        products={products}
+        sellerName={session.user.name}
+      />
+    </Suspense>
   );
 }
-
-  

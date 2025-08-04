@@ -4,13 +4,11 @@ import prisma from '@/app/lib/prisma';
 // ✅ PUT: Update product by ID
 export async function PUT(
   req: NextRequest,
-  context: { params: { id: string } }
-) {
   // ✅ According to Next.js App Router best practices,
   // we should destructure `params` from context separately (not directly in the arguments)
-  const { params } = context;
+  { params }: { params: { id: string } }
+) {
   const { id } = params;
-
   const data = await req.json();
 
   try {
@@ -31,11 +29,10 @@ export async function PUT(
 
 // ✅ DELETE: Remove product by ID
 export async function DELETE(
-  request: Request,
-  context: { params: { id: string } }
-) {
+  request: NextRequest,
   // ✅ Destructure `params` separately to avoid runtime warnings
-  const { params } = context;
+  { params }: { params: { id: string } }
+) {
   const { id } = params;
 
   try {

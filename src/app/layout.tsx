@@ -9,11 +9,16 @@ import ClientSessionProvider from '@/components/ClientSessionProvider'; // 👈 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className="flex flex-col min-h-screen">
+      <body className="flex flex-col min-h-screen overflow-x-hidden">
         <ClientSessionProvider>
-          <Navbar />
-          <main className="flex-grow">{children}</main>
-          <Footer />
+          <div className="max-w-screen-xl w-full mx-auto px-4">
+            <Navbar />
+          </div>
+          <main className="flex-grow max-w-screen-xl w-full mx-auto px-4">{children}
+          </main>
+          <div className="max-w-screen-xl w-full mx-auto px-4">
+            <Footer />
+          </div>
         </ClientSessionProvider>
       </body>
     </html>

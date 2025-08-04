@@ -23,7 +23,7 @@ export default function Navbar() {
               />
             </Link>
           </div>
-        <nav className="flex flex-wrap items-center justify-end w-[70%] gap-4">
+        <nav className="flex flex-wrap items-center justify-end w-[70%] gap-6">
 
           {/* Center: Menu */}
           <div className="flex justify-center">
