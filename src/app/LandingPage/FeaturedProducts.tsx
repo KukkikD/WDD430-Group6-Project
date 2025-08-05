@@ -3,10 +3,10 @@
 import Image from 'next/image';
 
 const featuredProducts = [
-  { id: 1, name: 'Handmade Vase', price: '$45', rating: 4.5, image: '/images/vase.jpg' },
-  { id: 2, name: 'Wool Scarf', price: '$30', rating: 4.0, image: '/images/scarf.jpg' },
-  { id: 3, name: 'Wooden Bowl', price: '$25', rating: 4.2, image: '/images/bowl.jpg' },
-  { id: 4, name: 'Silver Necklace', price: '$55', rating: 4.8, image: '/images/necklace.jpg' },
+  { id: 1, name: 'Handmade Vase', price: '$45', rating: 4.5, image: '/images/products/vase.png' },
+  { id: 2, name: 'Wool Scarf', price: '$30', rating: 4.0, image: '/images/products/scarf.webp' },
+  { id: 3, name: 'Wooden Bowl', price: '$25', rating: 4.2, image: '/images/products/bowl.webp' },
+  { id: 4, name: 'Silver Necklace', price: '$55', rating: 4.8, image: '/images/products/silver-necklace.jpeg' },
  // { id: 5, name: 'Sweaters', price: '$14.95', rating: 4.1, image: '/placeholder.png' },
  // { id: 6, name: 'Earrings', price: '$10.95', rating: 4.3, image: '/placeholder.png' },
 ];
@@ -19,7 +19,7 @@ export default function FeaturedProducts() {
         {featuredProducts.map(({ id, name, price, rating, image }) => (
           <div key={id || name} className="bg-white border rounded-lg p-4 shadow-md">
             <Image
-              src={image}
+              src={image || "/images/products/placeholder.jpeg"} //"photo coming soon" placeholder image
               alt={name}
               width={400}
               height={160}
