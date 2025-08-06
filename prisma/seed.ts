@@ -18,7 +18,8 @@ async function main() {
       name: 'Handmade Wooden Bowl',
       description: 'Beautiful wooden bowl crafted by hand.',
       price: 29.99,
-      image: '/images/placeholder.png',
+      image: '/images/products/bowl.webp',
+      category: 'Woodwork',
       sellerId: seller.id,
     },
   });

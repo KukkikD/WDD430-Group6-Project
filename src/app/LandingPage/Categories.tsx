@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 
-const categories = ["Ceramics", "Knitting", "Woodwork", "Jewelry"];
+const categories = ["Ceramics", "Knitting", "Woodworking", "Jewelry"];
 
 export default function Categories() {
   return (
@@ -14,7 +14,7 @@ export default function Categories() {
             className="bg-gray-100 p-2 rounded shadow-md text-center hover:bg-yellow-100 transition w-[100%]"
           >
             <Image
-              src="/placeholder.png" //put the route of the real picture instead of this file.
+              src={`/images/categories/${cat.toLowerCase()}.jpg`}
               alt={cat}
               width={128} //(width px)
               height={80} //(height px)
