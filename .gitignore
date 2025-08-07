@@ -17,6 +17,7 @@
 
 # webstorm
 .idea
+.vscode
 
 # next.js
 /.next/
