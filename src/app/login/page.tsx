@@ -3,6 +3,7 @@
 import { useState, FormEvent} from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { signIn } from "next-auth/react"; // ✅ import NextAuth client helper
 
 export default function LoginPage() {
   const [email, setEmail] = useState<string>('');
@@ -17,30 +18,28 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({email, password}),
+      const res = await signIn('credentials', {
+        redirect: false,
+        email,
+        password,
       });
 
-      const data = await res.json();
+      if (res?.error) {
+        setError('Invalid email or password');
+      } else {
+        // ✅ just redirect after login successfull
+        // 🔍 must fetch session to know role before redirect
+        const sessionRes = await fetch('/api/auth/session');
+        const sessionData = await sessionRes.json();
+        const role = sessionData?.user?.role;
 
-      if (res.ok) {
-        // Save the token and user info in localStorage
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-
-        // Redirect based on user role
-        if (data.user.role === 'seller') {
-          router.push('/seller-dashboard');
-        } else if (data.user.role === 'admin') {
+        if (role === 'seller') {
+          router.push('/seller/dashboard');
+        } else if (role === 'admin') {
           router.push('/admin-dashboard');
         } else {
-          router.push('/profile'); // Default for customers
+          router.push('/profile');
         }
-
-      } else {
-        setError(data.message || 'Invalid email or password');
       }
     } catch (error) {
       setError('Login failed. Please try again.');
@@ -48,6 +47,7 @@ export default function LoginPage() {
       setIsLoading(false);
     }
   };
+
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center bg-gray-50">
@@ -96,7 +96,7 @@ export default function LoginPage() {
         
         <div className="text-sm text-center text-gray-600 mt-6">
           Don't have an account yet?{' '}
-          <Link href="/register" className="font-medium text-purple-600 hover:underline">
+          <Link href="/register-choice" className="font-medium text-purple-600 hover:underline">
             Create One
           </Link>
         </div>

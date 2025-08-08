@@ -19,6 +19,7 @@ export default function Categories() {
               width={128} //(width px)
               height={80} //(height px)
               className="w-full h-20 object-cover mb-2 rounded"
+              style={{ height: "auto" }} // ✅ Add this line to avoid warning
             />
             <p className="font-medium text-green-900">{cat}</p>
           </div>
