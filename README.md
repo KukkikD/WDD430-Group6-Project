@@ -50,4 +50,7 @@ To build a virtual marketplace for artisans to:
 ## 📌 **Project Board**
 See [GitHub Project Board](https://github.com/users/KukkikD/projects/3/views/1) for task assignments and progress tracking.
 
+---
 
+## 🌐 Project Website**
+wdd-430-group6-project.vercel.app

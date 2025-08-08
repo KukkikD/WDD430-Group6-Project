@@ -18,6 +18,8 @@ interface Product {
 interface Props {
   products: Product[];
   sellerName: string;
+  totalSales: number;       // <-- ✅ Add this
+  ordersCount: number;      // <-- ✅ Add this
 }
 
 export default function SellerDashboardClient({ products, sellerName }: Props) {
@@ -111,6 +113,7 @@ export default function SellerDashboardClient({ products, sellerName }: Props) {
                   width={64}
                   height={64}
                   className="rounded object-cover transistion-transform duration-300 hover:scale-125 hover:shadow-x5"
+                  style={{ height: "auto" }} // ✅ Add this line to avoid warning 
                 />
               </td>
               <td className="py-2 px-4 font-semibold">{p.name}</td>

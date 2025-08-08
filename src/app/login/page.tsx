@@ -3,6 +3,7 @@
 import { useState, FormEvent} from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { signIn } from "next-auth/react"; // ✅ import NextAuth client helper
 
 export default function LoginPage() {
   const [email, setEmail] = useState<string>('');
@@ -11,43 +12,49 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
 
     try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({email, password}),
+      const res = await signIn('credentials', {
+        redirect: false,
+        email,
+        password,
       });
 
-      const data = await res.json();
-
-      if (res.ok) {
-        // Here we need to save the token in localstorage
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-
-        // Then we redirect to the user profile or home page.
-        router.push('/profile');
-
+      if (res?.error) {
+        setError('Invalid email or password');
       } else {
-        setError(data.message || 'There is an error in your request');
+        // ✅ just redirect after login successfull
+        // 🔍 must fetch session to know role before redirect
+        const sessionRes = await fetch('/api/auth/session');
+        const sessionData = await sessionRes.json();
+        const role = sessionData?.user?.role;
+
+        if (role === 'seller') {
+          router.push('/seller/dashboard');
+        } else if (role === 'admin') {
+          router.push('/admin-dashboard');
+        } else {
+          router.push('/profile');
+        }
       }
-    }catch (eror) {
-      setError('It was not possible to login, please try again.');
-    }finally {
+    } catch (error) {
+      setError('Login failed. Please try again.');
+    } finally {
       setIsLoading(false);
     }
   };
 
+
   return (
     <div className="min-h-[80vh] flex items-center justify-center bg-gray-50">
       <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-900">Login</h2>
+        <h2 className="text-3xl font-bold text-center mb-6 text-gray-900">Welcome Back</h2>
+        <p className="text-center text-gray-600 mb-6">Sign in to your account</p>
+        
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label htmlFor="email" className="block mb-1 font-medium">Email</label>
@@ -74,40 +81,35 @@ export default function LoginPage() {
             />
           </div>
           {error && (
-              <p className={`mt-4 text-center font-medium ${error === 'Login successful!' ? 'text-green-600' : 'text-red-600'}`}> </p>
+            <p className="text-red-600 text-center font-medium">{error}</p>
           )}
           <div>
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-2 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded-md transition-colors"
+              className="w-full py-2 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded-md transition-colors disabled:opacity-50"
             >
-              {isLoading ? 'Login ...' : 'Login'}
+              {isLoading ? 'Signing In...' : 'Sign In'}
             </button>
           </div>
         </form>
-        <div className="text-sm text-center text-gray-600">
-           Don&#39;t have and account yet?{' '}
-          <Link href="/register" className="font-medium text-purple-600 hover:underline">
+        
+        <div className="text-sm text-center text-gray-600 mt-6">
+          Don't have an account yet?{' '}
+          <Link href="/register-choice" className="font-medium text-purple-600 hover:underline">
             Create One
           </Link>
         </div>
 
-
-          {/*<button*/}
-          {/*  type="submit"*/}
-          {/*  className="w-full py-2 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded-md transition-colors"*/}
-          {/*>*/}
-          {/*  Log In*/}
-          {/*</button>*/}
-
-        {/*{message && (*/}
-        {/*  <div className={`mt-4 text-center font-medium ${message === 'Login successful!' ? 'text-green-600' : 'text-red-600'}`}>*/}
-        {/*    {message}*/}
-        {/*  </div>*/}
-        {/*)}*/}
-
-
+        <div className="mt-6 pt-6 border-t border-gray-200">
+          <div className="text-center">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Account Types</h3>
+            <div className="space-y-2 text-sm text-gray-600">
+              <p>🛍️ <strong>Buyers:</strong> Browse and purchase handcrafted products</p>
+              <p>🛠️ <strong>Sellers:</strong> List and sell your handmade creations</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

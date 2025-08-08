@@ -19,11 +19,11 @@ export default function FeaturedProducts() {
         {featuredProducts.map(({ id, name, price, rating, image }) => (
           <div key={id || name} className="bg-white border rounded-lg p-4 shadow-md">
             <Image
-              src={image || "/images/products/placeholder.jpeg"} //"photo coming soon" placeholder image
+              src={image || "/images/products/placeholder.jpeg"}
               alt={name}
               width={400}
               height={160}
-              className="rounded-md mb-4 object-cover w-full h-40"
+              className="rounded-md mb-4 object-contain w-full h-40 bg-white"
             />
             <h3 className="font-semibold">{name}</h3>
             <p className="text-yellow-600 font-bold">{price}</p>

@@ -1,12 +1,20 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import prisma from '@/app/lib/prisma'; 
+import prisma from '@/app/lib/prisma';
+
+// ✅ 1. Correct Seller interface
+interface Seller {
+  id: string;
+  name: string;
+  bio?: string;
+  profileImage?: string;
+}
 
 export default async function SellerSpotlight() {
-  // fetch all sellers are role = 'seller'
-  let sellers = [];
+  let sellers: Seller[] = [];
+
   try {
-    sellers = await prisma.user.findMany({
+    const rawSellers = await prisma.user.findMany({
       where: { role: 'seller' },
       select: {
         id: true,
@@ -15,9 +23,16 @@ export default async function SellerSpotlight() {
         profileImage: true,
       },
     });
+
+    // ✅ 2. Convert `null` fields to `undefined`
+    sellers = rawSellers.map((seller) => ({
+      id: seller.id,
+      name: seller.name,
+      bio: seller.bio ?? undefined,
+      profileImage: seller.profileImage ?? undefined,
+    }));
   } catch (error) {
     console.error('Database connection error:', error);
-    // Fallback to mock data when database is not available
     sellers = [
       {
         id: '1',
@@ -31,16 +46,9 @@ export default async function SellerSpotlight() {
         bio: 'Wooden furniture and home decor',
         profileImage: '/images/sellers/tom.png',
       },
-      {
-        id: '3',
-        name: 'Sarah Wilson',
-        bio: 'Handmade ceramics and pottery',
-        profileImage: '/images/sellers/anna.png',
-      },
     ];
   }
 
-  // random 3 sellers
   const shuffled = sellers.sort(() => 0.5 - Math.random());
   const randomSellers = shuffled.slice(0, 3);
 
@@ -52,15 +60,17 @@ export default async function SellerSpotlight() {
         {randomSellers.map(({ id, name, bio, profileImage }) => (
           <div
             key={id}
-            className="bg-gray-100 p-6 rounded-lg shadow-md max-w-xs text-center"
+            className="bg-gray-100 p-6 rounded-lg shadow-md w-72 text-center"
           >
-            <Image
-              src={profileImage || '@/public/images/seller/placeholder.png'} //fallback seller image
-              alt={name}
-              width={120}
-              height={120}
-              className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
-            />
+            <div className="w-24 h-24 rounded-full mx-auto mb-4 overflow-hidden bg-gray-200">
+              <Image
+                src={profileImage || '/images/sellers/anna.png'}
+                alt={name}
+                width={120}
+                height={120}
+                className="w-full h-full object-cover"
+              />
+            </div>
 
             <h3 className="text-lg font-semibold mb-2">{name}</h3>
             <p className="text-sm text-gray-600 mb-4">{bio || 'No bio available.'}</p>

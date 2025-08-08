@@ -18,10 +18,10 @@ model User {
   name         String
   email        String    @unique
   password     String
-  role         String    @default("seller") // start from seller first - Role are defined visitor/seller/admin
+  role         String    @default("customer") // ✅ fixed here
   profileImage String?
   bio          String?
-  products     Product[] // connect to Product
+  products     Product[] 
 }
 
 model Product {
@@ -30,10 +30,9 @@ model Product {
   description String
   price       Float
   image       String
-  category    String   @default("Uncategorized") // <--- add this line
+  category    String   @default("Uncategorized")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   sellerId    String
   seller      User     @relation(fields: [sellerId], references: [id])
 }
-
