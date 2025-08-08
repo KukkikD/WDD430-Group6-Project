@@ -54,13 +54,15 @@ export default async function SellerSpotlight() {
             key={id}
             className="bg-gray-100 p-6 rounded-lg shadow-md max-w-xs text-center"
           >
-            <Image
-              src={profileImage || '@/public/images/seller/placeholder.png'} //fallback seller image
-              alt={name}
-              width={120}
-              height={120}
-              className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
-            />
+            <div className="w-24 h-24 rounded-full mx-auto mb-4 overflow-hidden bg-gray-200">
+              <Image
+                src={profileImage || '/images/sellers/anna.png'}
+                alt={name}
+                width={120}
+                height={120}
+                className="w-full h-full object-cover"
+              />
+            </div>
 
             <h3 className="text-lg font-semibold mb-2">{name}</h3>
             <p className="text-sm text-gray-600 mb-4">{bio || 'No bio available.'}</p>
