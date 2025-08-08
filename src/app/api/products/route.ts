@@ -1,22 +1,21 @@
 import { NextResponse } from 'next/server';
-// 🔒 Uncomment these lines once authentication is enabled
-// import { getServerSession } from 'next-auth';
-// import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/lib/auth';
 import prisma from '@/app/lib/prisma';
 
-// 🛒 POST: Create a new product
 export async function POST(req: Request) {
   const data = await req.json();
 
-  // 🔐 Authentication check (ENABLE THIS WHEN Auth is ready)
-  // const session = await getServerSession(authOptions);
-  // if (!session || !session.user?.id) {
-  //   return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
-  // }
-  // const sellerId = session.user.id;
+  // ✅ Get user session (authentication)
+  const session = await getServerSession(authOptions);
 
-  // ⚠️ TEMP: Hardcoded seller ID for development only
-  const sellerId = 'cmda12lsr0000j8lwnoit0acv'; // TODO: Replace with session.user.id when Auth is ready
+  // ❌ If not logged in, block the request
+  if (!session || !session.user?.id) {
+    return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+  }
+
+  // ✅ Real sellerId from logged-in user
+  const sellerId = session.user.id;
 
   try {
     const newProduct = await prisma.product.create({
@@ -26,7 +25,7 @@ export async function POST(req: Request) {
         price: data.price,
         image: data.image,
         category: data.category,
-        sellerId: sellerId, // ✅ Currently hardcoded; will be dynamic once Auth is active
+        sellerId, // ✅ Now uses actual logged-in seller
       },
     });
 

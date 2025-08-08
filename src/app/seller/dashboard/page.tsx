@@ -1,40 +1,68 @@
-//change to Server Components
-
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { authOptions } from "@/app/lib/auth";
 import prisma from "@/app/lib/prisma";
-import SellerDashboardClient from "./SellerDashboardClient";
-import { Suspense } from "react"; // ✅ Import Suspense for client-side rendering
+import SellerDashboardClient from "@/app/seller/dashboard/SellerDashboardClient";
+import { Suspense } from "react";
 
-// TODO: Auth Integration Instructions
-// Currently, we are using a mock session object for demonstration.
-// 🔐 Once Auth is implemented, replace the mock session below with the actual session from next-auth like this:
-// import { getServerSession } from "next-auth";
-// import { authOptions } from "@/app/api/auth/[...nextauth]/options";
-// const session = await getServerSession(authOptions);
-// if (!session) redirect("/login");
-// const sellerId = session.user.id;
-// const sellerName = session.user.name;
+export default async function SellerDashboardPage() {
+  // 🔐 Fetch the current authenticated session
+  const session = await getServerSession(authOptions);
 
-export default async function SellerDashboard() {
-  // Mock session data (replace with actual session later)
-  const session = {
-    user: {
-      id: "cmda12lsr0000j8lwnoit0acv", // ⚠️ Replace this with session.user.id
-      name: "Crafty Seller",  // ⚠️ Replace this with session.user.name
-      role: "seller",
-    },
-  };
+  // 🔒 Redirect to login page if not logged in or not a seller
+  if (!session || session.user.role !== "seller") {
+    redirect("/login");
+  }
 
-  // Fetch products belonging to the current seller
+  // ✅ Get seller ID from session
+  const sellerId = session.user.id;
+
+  // ✅ Get seller name with fallback
+  const sellerName = session.user.name ?? "Seller";
+
+  // 📦 Fetch all products for this seller from the database
   const products = await prisma.product.findMany({
-    where: { sellerId: session.user.id },
+    where: { sellerId },
   });
 
+  // 🧪 Mock data (replace with real data later)
+  //const totalSales = 2590.75; // 💡 Example total sales (mocked)
+  //const ordersCount = 47;     // 💡 Example order count (mocked)
+
   return (
-    <Suspense fallback={<div>Loading dashboard...</div>}> {/* ✅ Wrap in Suspense to satisfy useSearchParams hook inside client components */}
+    <Suspense fallback={<div className="text-center p-10 text-[#4b3f2f]">Loading seller dashboard...</div>}>
       <SellerDashboardClient
         products={products}
-        sellerName={session.user.name}
+        sellerName={sellerName} totalSales={0} ordersCount={0}        //totalSales={totalSales}
+        //ordersCount={ordersCount}
       />
+
+      <div className="max-w-4xl mx-auto mt-8 px-4">
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">Welcome to Your Seller Dashboard!</h2>
+          <p className="text-gray-600 mb-4">
+            Start selling your handcrafted products on Handcrafted HAVEN. Here's what you can do:
+          </p>
+          <ul className="list-disc list-inside text-gray-600 space-y-2">
+            <li>Add new products to your store</li>
+            <li>Manage your product listings</li>
+            <li>Track your sales and orders</li>
+            <li>Update your seller profile</li>
+          </ul>
+        </div>
+
+        <div className="mt-6 text-center">
+          {/* 🔓 Logout form that redirects to /logout after sign out */}
+          <form action="/api/auth/signout?callbackUrl=/logout" method="post">
+            <button
+              type="submit"
+              className="mt-4 bg-red-600 text-white px-5 py-2 rounded hover:bg-red-700 transition-colors"
+            >
+              Logout
+            </button>
+          </form>
+        </div>
+      </div>
     </Suspense>
   );
 }
