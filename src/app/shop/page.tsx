@@ -11,7 +11,7 @@ export default function ShopPage() {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    // --- Estados para el Filtrado ---
+    //  State for filters
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<string>('All');
     const [price, setPrice] = useState(500);
@@ -22,12 +22,13 @@ export default function ShopPage() {
         const fetchProducts = async () => {
             try {
                 const res = await fetch('/api/products/list');
-                if (!res.ok) throw new Error('Error al cargar los productos.');
+                if (!res.ok) throw new Error('Error loading products.');
 
-                const data: Product[] = await res.json();
+                const data = await res.json();
+                if (!Array.isArray(data)) throw new Error('Invalid products data.');
                 setAllProducts(data);
 
-                const uniqueCategories = ['All', ...Array.from(new Set(data.map(p => p.category)))];
+                const uniqueCategories = ['All', ...Array.from(new Set(data.map(p => p.category).filter(Boolean)))];
                 setCategories(uniqueCategories);
 
                 const maxProductPrice = Math.max(...data.map(p => p.price), 0);
@@ -36,7 +37,7 @@ export default function ShopPage() {
                 setPrice(initialPrice);
 
             } catch (err: any) {
-                setError(err.message || 'Ocurrió un error inesperado.');
+                setError(err.message || 'An unexpected error occurred.');
             } finally {
                 setIsLoading(false);
             }
@@ -45,9 +46,9 @@ export default function ShopPage() {
         fetchProducts();
     }, []);
 
-    // --- Lógica de Filtrado Combinada ---
+    // --- Filtering Logic ---
     const filteredProducts = useMemo(() => {
-        return allProducts.filter(product => {
+        return (allProducts ?? []).filter(product => {
             const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
             const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
             const matchesPrice = product.price <= price;
@@ -55,32 +56,36 @@ export default function ShopPage() {
         });
     }, [allProducts, selectedCategory, searchTerm, price]);
 
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value);
+    const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => setPrice(Number(e.target.value));
 
-    if (isLoading) return <div className="text-center py-20">Cargando productos...</div>;
+
+    if (isLoading) return <div className="text-center py-20">Loading products...</div>;
     if (error) return <div className="text-center py-20 text-red-500">Error: {error}</div>;
+    if (filteredProducts.length === 0) return <div className="text-center py-20">No products found.</div>;
 
-    return (
+    return(
         <div className="bg-gray-50 min-h-screen">
             <div className="container mx-auto px-4 py-12">
                 <div className="text-center mb-12">
-                    <h1 className="text-4xl font-bold text-gray-900 mb-4">Nuestra Colección</h1>
-                    <p className="text-gray-600">Descubre los tesoros únicos hechos a mano por nuestros artesanos.</p>
+                    <h1 className="text-4xl font-bold text-gray-900 mb-4">Our Collection</h1>
+                    <p className="text-gray-600">Discover the unique treasures handcrafted by our artisans.</p>
                 </div>
 
                 <div className="flex flex-col lg:flex-row">
-                    {/* Usamos el componente de Filtros y le pasamos el estado y las funciones para manejarlo */}
+                    {/* We use the Filters component and pass the state and functions to handle it */}
                     <Filters
                         categories={categories}
                         selectedCategory={selectedCategory}
                         onSelectCategory={setSelectedCategory}
                         searchTerm={searchTerm}
-                        onSearchChange={(e) => setSearchTerm(e.target.value)}
+                        onSearchChange={handleSearchChange}
                         price={price}
-                        onPriceChange={(e) => setPrice(Number(e.target.value))}
+                        onPriceChange={handlePriceChange}
                         maxPrice={maxPrice}
                     />
 
-                    {/* Usamos el componente ProductGrid, pasándole solo los productos ya filtrados */}
+                    {/* We use the ProductGrid component, passing only the filtered products */}
                     <ProductGrid products={filteredProducts} />
                 </div>
             </div>

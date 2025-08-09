@@ -24,15 +24,21 @@ export const CartContext = createContext<CartContextType | undefined>(undefined)
 // Create the Provider component 
 export const CartProvider = ( { children } : { children: ReactNode }) => {
     const [ cartItems, setCartItems] = useState<CartItem[]>([]);
-
+    const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     // Load cart items from localStorage on initial render
     useEffect( () => {
-        const storedCart = localStorage.getItem('cart');
-        if(storedCart) {
-            setCartItems(JSON.parse(storedCart));
+        try{
+            const storedCart = localStorage.getItem('cart');
+            if(storedCart) {
+                setCartItems(JSON.parse(storedCart));
+            }
+
+        }catch(error) {
+            console.error('Failed to load cart from localStorage: ', error);
         }
-    });
+        setIsInitialLoad(false);
+    }, []);
 
     // Save cart items to localStorage whenever they change
     useEffect( () => {

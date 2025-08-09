@@ -5,6 +5,7 @@ import { CartProvider } from '@/app/context/CartContext';
 import { ReactNode } from 'react';
 import Navbar from '@/ui/components/Navbar';
 import Footer from '@/ui/components/Footer';
+import ClientSessionProvider from '../components/ClientSessionProvider';
 
 export const metadata: Metadata = {
   title: 'Handcrafted Haven',
@@ -18,16 +19,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className={`${inter.className} flex flex-col min-h-screen overflow-x-hidden antialiased`}>
 
         {/* CartProvider wraps the entire application to provide cart context */}
-        <CartProvider>
-          <div className="max-w-screen-xl w-full mx-auto px-4">
-            <Navbar />
-          </div>
-          <main className="flex-grow max-w-screen-xl w-full mx-auto px-4">{children}
-          </main>
-          <div className="max-w-screen-xl w-full mx-auto px-4">
-            <Footer />
-          </div>
-        </CartProvider>
+        <ClientSessionProvider>
+          <CartProvider>
+            <div className="max-w-screen-xl w-full mx-auto px-4">
+              <Navbar />
+            </div>
+            <main className="flex-grow max-w-screen-xl w-full mx-auto px-4">{children}
+            </main>
+            <div className="max-w-screen-xl w-full mx-auto px-4">
+              <Footer />
+            </div>
+          </CartProvider>
+        </ClientSessionProvider>  
       </body>
     </html>
   );
