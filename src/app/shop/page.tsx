@@ -5,7 +5,7 @@ import { Product } from '@prisma/client';
 import { Filters } from './components/Filters';
 import { ProductGrid } from './components/ProductGrid';
 
-// --- Componente Principal de la Página ---
+// main component
 export default function ShopPage() {
     const [allProducts, setAllProducts] = useState<Product[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
