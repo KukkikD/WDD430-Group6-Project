@@ -1,5 +1,8 @@
 'use client';
 
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -26,7 +29,7 @@ export default function Navbar() {
         <nav className="flex flex-wrap items-center justify-end w-[80%] gap-6 sm:m-auto">
 
           {/* Center: Menu */}
-          <div className="flex justify-center">
+          <div className="md:visible flex justify-center">
             <ul className="flex-1 flex flex-wrap justify-center gap-6 text-lg text-gray-700">
               <li className="whitespace-nowrap"><Link href="/" className="tailJared text-gray-700 hover:text-yellow-400 transition-colors duration-200 no-underline">Home</Link></li>
               <li className="whitespace-nowrap"><Link href="/shop" className="text-gray-700 hover:text-yellow-400">Shop</Link></li>
@@ -35,6 +38,11 @@ export default function Navbar() {
               <li className="whitespace-nowrap"><Link href="/AboutUs" className="text-gray-700 hover:text-yellow-400">About Us</Link></li>
               <li className="whitespace-nowrap"><Link href="/login" className="text-gray-700 hover:text-yellow-400">Log in</Link></li>
             </ul>
+          <DropdownButton className="invisible " id="dropdown-basic-button" title="Dropdown button">
+            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+          </DropdownButton>
           </div>
 
           {/* Right: Cart */}
