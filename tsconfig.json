@@ -29,8 +29,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/AboutUs/accordion.jsx"
-, "next.config.js"  ],
+    "src/app/AboutUs/accordion.jsx", 
+    "next.config.js"  ],
   "exclude": ["node_modules"],
   "types": ["next-auth"]
 }
