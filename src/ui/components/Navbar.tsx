@@ -26,7 +26,7 @@ export default function Navbar() {
               />
             </Link>
           </div>
-        <nav className="flex md:flex-wrap items-center justify-end md:w-[80%] gap-2 md:gap-6 sm:m-auto sm:w-full">
+        <nav className="flex md:flex-wrap items-center justify-end md:w-[80%] gap-2 md:gap-6 sm:m-auto sm:w-full m-0">
 
           {/* Center: Menu */}
           <div className="flex justify-center">

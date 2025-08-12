@@ -9,24 +9,24 @@ export const Team = [
         image : "",
         fullName:"Amornrat Dizon",
         projectRole:"Project Manager / Designer",
-        linkedIn : ""
+        linkedIn : "https://th.linkedin.com/in/amornratdizon"
     },
     {
         image : "",
         fullName:"Andrew O. Mogbeyiromore",
         projectRole:"Back-End Developer",
-        linkedIn : ""
+        linkedIn : "https://www.linkedin.com/in/andrew-mogbeyiromore/"
     },
     {
         image : "",
         fullName:"Tanya Glea Ann Trampp",
         projectRole:"Front-End Developer",
-        linkedIn : ""
+        linkedIn : "https://www.linkedin.com/in/ttrampp"
     },
     {
         image : "",
         fullName:"Jordan Erick Larcher",
         projectRole:"Software Developer",
-        linkedIn : ""
+        linkedIn : "https://www.linkedin.com/in/jordan-erick-larcher/"
     },
 ]
