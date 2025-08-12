@@ -12,27 +12,33 @@ interface Seller {
 
 export default async function SellerSpotlight() {
   let sellers: Seller[] = [];
+  const enableDb = process.env.NEXT_PUBLIC_ENABLE_SELLER_SPOTLIGHT_DB === 'true';
 
-  try {
-    const rawSellers = await prisma.user.findMany({
-      where: { role: 'seller' },
-      select: {
-        id: true,
-        name: true,
-        bio: true,
-        profileImage: true,
-      },
-    });
+  if (enableDb) {
+    try {
+      const rawSellers = await prisma.user.findMany({
+        where: { role: 'seller' },
+        select: {
+          id: true,
+          name: true,
+          bio: true,
+          profileImage: true,
+        },
+      });
 
-    // ✅ 2. Convert `null` fields to `undefined`
-    sellers = rawSellers.map((seller) => ({
-      id: seller.id,
-      name: seller.name,
-      bio: seller.bio ?? undefined,
-      profileImage: seller.profileImage ?? undefined,
-    }));
-  } catch (error) {
-    console.error('Database connection error:', error);
+      sellers = rawSellers.map((seller) => ({
+        id: seller.id,
+        name: seller.name,
+        bio: seller.bio ?? undefined,
+        profileImage: seller.profileImage ?? undefined,
+      }));
+    } catch (error) {
+      console.error('Database connection error:', error);
+    }
+  }
+
+  // ✅ Fallback sellers if DB is disabled or failed
+  if (sellers.length === 0) {
     sellers = [
       {
         id: '1',

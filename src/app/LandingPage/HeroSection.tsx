@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export default function HeroSection() {
   return (
-    <section className="relative flex flex-col items-center justify-center text-center h-[500px] overflow-hidden">
+    <section className="relative flex flex-col items-center justify-center text-center h-[500px] overflow-hidden z-10">
       {/* Background image with Next.js Image component */}
       <Image
         src="/images/hero.jpg"
@@ -14,7 +14,7 @@ export default function HeroSection() {
         priority // load this image first for better LCP
       />
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black opacity-20"></div>
+      <div className="absolute inset-0 bg-black opacity-20 z-0"></div>
 
       {/* Text content */}
       <div className="relative z-10 px-4 text-white">
