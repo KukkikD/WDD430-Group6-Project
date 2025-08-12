@@ -21,6 +21,9 @@ html, body {
     /* text-decoration: none; */
     @apply text-gray-700 hover:text-yellow-400 transition-colors duration-200 no-underline
   }
+  footer{
+    @apply py-6 px-8 text-sm shadow-[-6px_-6px_10px_rgba(0,0,0,0.15)] mt-8;
+  }
   h1 {
     @apply text-2xl font-bold;
   }
