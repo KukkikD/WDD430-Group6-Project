@@ -1,74 +1,103 @@
-'use client';
+"use client";
 
-import { useState, FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, FormEvent } from "react";
+import Link from "next/link";
 
 export default function RegisterCustomerPage() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
+    setIsSubmitting(true);
 
     try {
-      const res = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password, role: 'customer' }),
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password, role: "customer" }),
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        router.push('/login'); // ✅ redirect to login
+        setIsSuccess(true);
+        setName("");
+        setEmail("");
+        setPassword("");
       } else {
-        setError(data.error || 'Registration failed');
+        setError(data.error || "Registration failed");
       }
     } catch {
-      setError('Something went wrong. Please try again.');
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <form onSubmit={handleSubmit} className="bg-white p-8 shadow rounded w-full max-w-md">
+      <div className="bg-white p-8 shadow rounded w-full max-w-md">
         <h2 className="text-xl font-bold mb-4">Register as Customer</h2>
 
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full mb-4 p-2 border rounded"
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full mb-4 p-2 border rounded"
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full mb-4 p-2 border rounded"
-          required
-        />
+        {isSuccess && (
+          <div className="mb-4 rounded border border-green-300 bg-green-100 text-green-800 px-4 py-3">
+            <p className="font-medium">Registration successful!</p>
+            <p className="text-sm mt-1">
+              You can now
+              {" "}
+              <Link href="/login" className="underline font-semibold">
+                sign in
+              </Link>
+              .
+            </p>
+          </div>
+        )}
 
-        {error && <p className="text-red-600 mb-4">{error}</p>}
+        {!isSuccess && (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full p-2 border rounded"
+              required
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-2 border rounded"
+              required
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-2 border rounded"
+              required
+            />
 
-        <button type="submit" className="w-full bg-amber-600 hover:bg-amber-700 text-white p-2 rounded font-semibold">
-          Register
-        </button>
-      </form>
+            {error && <p className="text-red-600">{error}</p>}
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-amber-600 hover:bg-amber-700 text-white p-2 rounded font-semibold disabled:opacity-60"
+            >
+              {isSubmitting ? "Creating account..." : "Register"}
+            </button>
+          </form>
+        )}
+      </div>
     </div>
   );
 }
