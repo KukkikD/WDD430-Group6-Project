@@ -74,7 +74,7 @@ export default function Navbar() {
           {/* Right: Auth & Cart */}
           <div className="flex items-center gap-4">
             {status === 'loading' ? (
-              <span className="text-gray-500">Loading...</span>
+              <span className="d-none d-md-block text-gray-500">Loading...</span>
             ) : session ? (
               <div className="relative" ref={dropdownRef}>
                 <button
@@ -98,7 +98,7 @@ export default function Navbar() {
                     {session.user?.role === 'seller' && (
                       <Link
                         href="/seller/dashboard"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="block px-4 py-2 text-sm text-lg text-gray-700 hover:bg-gray-100"
                         onClick={() => setShowDropdown(false)}
                       >
                         Seller Dashboard
@@ -114,7 +114,7 @@ export default function Navbar() {
                 )}
               </div>
             ) : (
-              <Link href="/login" className="text-gray-700 hover:text-yellow-400">Log in</Link>
+              <Link href="/login" className="d-none d-md-block text-lg text-gray-700 hover:text-yellow-400">Log in</Link>
             )}
 
             {/* Cart */}
