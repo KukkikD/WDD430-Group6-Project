@@ -28,7 +28,7 @@ export default function Navbar() {
           {/* Center: Menu */}
           <div className="flex justify-center">
             <ul className="flex-1 flex flex-wrap justify-center gap-6 text-lg text-gray-700">
-              <li className="whitespace-nowrap"><Link href="/" className="text-gray-700 hover:text-yellow-400 transition-colors duration-200 no-underline">Home</Link></li>
+              <li className="whitespace-nowrap"><Link href="/" className="tailJared text-gray-700 hover:text-yellow-400 transition-colors duration-200 no-underline">Home</Link></li>
               <li className="whitespace-nowrap"><Link href="/shop" className="text-gray-700 hover:text-yellow-400">Shop</Link></li>
               <li className="whitespace-nowrap"><Link href="/seller-profile" className="text-gray-700 hover:text-yellow-400">Seller Profile</Link></li>
               <li className="whitespace-nowrap"><Link href="/seller/dashboard" className="text-gray-700 hover:text-yellow-400">Dashboard</Link></li> {/* 👈 add here */}
