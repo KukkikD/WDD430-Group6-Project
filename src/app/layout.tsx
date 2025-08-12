@@ -1,4 +1,5 @@
 import './globals.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { inter, lusitana } from '@/ui/fonts';
 import { Metadata } from 'next';
 import { CartProvider } from '@/app/context/CartContext';
@@ -6,6 +7,7 @@ import { ReactNode } from 'react';
 import Navbar from '@/ui/components/Navbar';
 import Footer from '@/ui/components/Footer';
 import ClientSessionProvider from '../components/ClientSessionProvider';
+
 
 export const metadata: Metadata = {
   title: 'Handcrafted Haven',
