@@ -7,5 +7,5 @@ export async function GET() {
   const products = await prisma.product.findMany({
     include: { seller: { select: { name: true, id: true } } },
   });
-  return NextResponse.json({ products });
+  return NextResponse.json(products);
 } 
