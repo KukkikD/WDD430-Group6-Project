@@ -11,7 +11,7 @@ export default function RegisterSellerPage() {
     e.preventDefault();
     setError(null);
 
-    const res = await fetch('/api/auth/register-seller', {
+    const res = await fetch('/api/register-seller', {
       method: 'POST',
       headers: { 'Content-Type':'application/json' },
       body: JSON.stringify(form),
