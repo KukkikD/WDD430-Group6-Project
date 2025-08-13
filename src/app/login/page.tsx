@@ -12,13 +12,30 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [registrationSuccess, setRegistrationSuccess] = useState<string | null>(null);
   const router = useRouter();
+
+  // Check for registration success message
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.get('registered') === '1') {
+      setRegistrationSuccess('You have registered successfully! You can now sign in.');
+    }
+  }, []);
+
+  // Clear registration success message when user starts typing
+  const clearRegistrationSuccess = () => {
+    if (registrationSuccess) {
+      setRegistrationSuccess(null);
+    }
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
     setSuccessMsg(null);
+    setRegistrationSuccess(null);
 
     try {
       const res = await signIn("credentials", {
@@ -53,10 +70,29 @@ export default function LoginPage() {
         </h2>
         <p className="text-center text-gray-600 mb-6">Sign in to your account</p>
 
+        {registrationSuccess && (
+          <div className="mb-4 rounded-lg border border-green-300 bg-green-50 text-green-800 px-4 py-3 text-center relative shadow-sm">
+            <div className="flex items-center justify-center space-x-2">
+              <span className="text-green-600 text-xl">✅</span>
+              <span className="font-medium">{registrationSuccess}</span>
+            </div>
+            <button
+              onClick={() => setRegistrationSuccess(null)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-green-600 hover:text-green-800 text-lg font-bold hover:bg-green-200 rounded-full w-6 h-6 flex items-center justify-center transition-colors"
+              aria-label="Close message"
+            >
+              ×
+            </button>
+          </div>
+        )}
+
         {successMsg && (
-          <p className="mb-4 rounded border border-green-300 bg-green-100 text-green-800 px-4 py-2 text-center">
-            {successMsg}
-          </p>
+          <div className="mb-4 rounded-lg border border-green-300 bg-green-50 text-green-800 px-4 py-3 text-center relative shadow-sm">
+            <div className="flex items-center justify-center space-x-2">
+              <span className="text-green-600 text-xl">✅</span>
+              <span className="font-medium">{successMsg}</span>
+            </div>
+          </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -69,7 +105,11 @@ export default function LoginPage() {
               type="email"
               placeholder="Enter your email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                clearRegistrationSuccess();
+              }}
+              onFocus={clearRegistrationSuccess}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
             />
@@ -84,7 +124,11 @@ export default function LoginPage() {
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  clearRegistrationSuccess();
+                }}
+                onFocus={clearRegistrationSuccess}
                 required
                 className="w-full px-4 py-2 pr-12 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
               />
