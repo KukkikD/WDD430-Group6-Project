@@ -19,12 +19,13 @@ export function OPTIONS() {
 
 export async function POST(req: NextRequest) {
   try {
-    const [{ default: prisma }, bcrypt] = await Promise.all([
+    const [{ default: prisma }, { hash }] = await Promise.all([
       import('@/app/lib/prisma'),
-      import('bcrypt'),
+      import('bcryptjs'),
     ]);
 
     const { name, email, password, profileImage, bio } = await req.json();
+
     if (!name || !email || !password) {
       return NextResponse.json({ error: 'Name, email and password are required' }, { status: 400 });
     }
@@ -33,10 +34,13 @@ export async function POST(req: NextRequest) {
     }
 
     const normalizedEmail = String(email).trim().toLowerCase();
-    const exists = await prisma.user.findUnique({ where: { email: normalizedEmail } });
-    if (exists) return NextResponse.json({ error: 'User already exists' }, { status: 400 });
 
-    const hashed = await bcrypt.hash(password, 10);
+    const exists = await prisma.user.findUnique({ where: { email: normalizedEmail } });
+    if (exists) {
+      return NextResponse.json({ error: 'User already exists' }, { status: 400 });
+    }
+
+    const hashed = await hash(password, 10);
 
     const user = await prisma.user.create({
       data: {
@@ -51,7 +55,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ message: 'Seller registered', user }, { status: 201 });
-  } catch (err) {
+  } catch (err: any) {
     console.error('Register seller error:', err);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
