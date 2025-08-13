@@ -59,7 +59,7 @@ export default function Navbar() {
               <li className="whitespace-nowrap"><Link href="/shop" className="text-gray-700 hover:text-yellow-400">Shop</Link></li>
               <li className="whitespace-nowrap"><Link href="/seller-profiles" className="text-gray-700 hover:text-yellow-400">Seller Profiles</Link></li>
               {session?.user?.role === 'seller' && (
-                <li className="whitespace-nowrap"><Link href="/seller/dashboard" className="text-gray-700 hover:text-yellow-400">Dashboard</Link></li>
+                <li className="whitespace-nowrap"><Link href="/seller-profiles/dashboard" className="text-gray-700 hover:text-yellow-400">Dashboard</Link></li>
               )}
               <li className="whitespace-nowrap"><Link href="/AboutUs" className="text-gray-700 hover:text-yellow-400">About Us</Link></li>
             </ul>
@@ -68,7 +68,7 @@ export default function Navbar() {
               <Dropdown.Item href="/shop">Shop</Dropdown.Item>
               <Dropdown.Item href="/seller-profile">Seller Profile</Dropdown.Item>
               {session?.user?.role === 'seller' && (
-                <Dropdown.Item href="/seller/dashboard">Dashboard</Dropdown.Item>
+                <Dropdown.Item href="/seller-profiles/dashboard">Dashboard</Dropdown.Item>
               )}
               <Dropdown.Item href="/AboutUs">About Us</Dropdown.Item>
               <Dropdown.Item href="/login">Log in</Dropdown.Item>
@@ -89,17 +89,17 @@ export default function Navbar() {
                   <span className='d-none d-md-block'>{session.user?.name || 'User'}</span>
                   <span>▼</span>
                 </button>
-                
+
                 {showDropdown && (
                   <div id="dropProfile" className="absolute right-4 md:right-10 top-16 w-56 bg-white rounded-md shadow-lg py-1 border">
-                    <Link
+                    {/* <Link
                       href="/profile"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       onClick={() => setShowDropdown(false)}
                     >
                       Profile
-                    </Link>
-                    
+                    </Link> */}
+
                     <button
                       onClick={handleSignOut}
                       className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
