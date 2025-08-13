@@ -77,7 +77,7 @@ export default function SellerDashboardClient({ products, sellerName }: Props) {
   };
 
   return (
-    <main className="max-w-5xl mx-auto p-8">
+    <main className="max-w-5xl max-sm:text-center mx-auto p-8">
       <h1 className="text-3xl font-bold mb-6">Welcome, <span className="text-[#8f6b5d] font-serif italic text-4xl">{sellerName}!</span></h1>
 
       {/* ✅ Show success message when redirected with ?created=true */}
@@ -120,7 +120,7 @@ export default function SellerDashboardClient({ products, sellerName }: Props) {
               <td className="d-none d-md-table-cell">{p.description}</td>
               <td className="py-2 px-6 font-semibold text-green-700">${p.price.toFixed(2)}</td>
               <td className="d-none d-md-table-cell">{p.category || "Uncategorized"}</td>
-              <td className="md:text-right text-center space-x-4">
+              <td className="md:text-right max-sm:text-center space-x-4">
                 {/* 🔧 Edit product link */}
                 <Link href={`/seller/dashboard/edit/${p.id}`} className="text-blue-600 underline">
                   Edit

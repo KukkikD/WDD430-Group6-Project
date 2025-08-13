@@ -89,7 +89,7 @@ export default function Navbar() {
                 </button>
                 
                 {showDropdown && (
-                  <div className="fixed right-4 md:right-10 top-16 w-56 bg-white rounded-md shadow-lg py-1 z-[10000] border">
+                  <div className="absolute right-4 md:right-10 top-16 w-56 bg-white rounded-md shadow-lg py-1 z-[10000] border">
                     <Link
                       href="/profile"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
