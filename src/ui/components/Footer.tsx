@@ -1,7 +1,6 @@
 'use client';
 
 import React from "react";
-import { FaFacebookF, FaInstagram, FaPinterestP } from 'react-icons/fa';
 import Link from "next/link";
 
 export default function Footer() {
@@ -14,13 +13,13 @@ export default function Footer() {
           </div>
           <div className="flex gap-6 space-x-10 text-gray-500 mb-4 md:mb-0">
             <Link href={"/privacy"} className="hover:text-purple-600 transition-colors">Privacy Policy</Link>
-            <Link href={"/terms"} className="hover:text-purple-600 transitions-colors">Terms of Service</Link>
-            <Link href={"/contact"} className="hover:text-purple-600 transitions-colors">Contact Us</Link>
+            <Link href={"/terms"} className="hover:text-purple-600 transition-colors">Terms of Service</Link>
+            <Link href={"/contact"} className="hover:text-purple-600 transition-colors">Contact Us</Link>
           </div>
           <div className="flex space-x-4">
-            <a href="#" className="text-gray-500 hover:text-purple-600 transitions-colors"><FaFacebookF size={20} /></a>
-            <a href="#" className="text-gray-500 hover:text-purple-600 transitions-colors"><FaInstagram size={20} /></a>
-            <a href="#" className="text-gray-500 hover:text-purple-600 transitions-colors"><FaPinterestP size={20} /></a>
+            <a href="#" className="text-gray-500 hover:text-purple-600 transition-colors font-bold">Facebook</a>
+            <a href="#" className="text-gray-500 hover:text-purple-600 transition-colors font-bold">Instagram</a>
+            <a href="#" className="text-gray-500 hover:text-purple-600 transition-colors font-bold">Pinterest</a>
           </div>
         </div>
       </div>
