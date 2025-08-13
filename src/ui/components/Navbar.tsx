@@ -74,14 +74,14 @@ export default function Navbar() {
           </div>
 
           {/* Right: Auth & Cart */}
-          <div className="flex items-center md:gap-4 gap-2">
+          <div className="flex items-center gap-3">
             {status === 'loading' ? (
               <span className="d-none d-md-block text-gray-500">Loading...</span>
             ) : session ? (
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setShowDropdown(!showDropdown)}
-                  className="flex items-center md:gap-2 text-gray-700 hover:text-yellow-400 transition-colors"
+                  className="flex items-center md:gap-2  text-gray-700 hover:text-yellow-400 transition-colors"
                 >
                   <span>👤</span>
                   <span className='d-none d-md-block'>{session.user?.name || 'User'}</span>
@@ -89,7 +89,7 @@ export default function Navbar() {
                 </button>
                 
                 {showDropdown && (
-                  <div className="absolute right-4 md:right-10 top-16 w-56 bg-white rounded-md shadow-lg py-1 z-[10000] border">
+                  <div id="dropProfile" className="absolute right-4 md:right-10 top-16 w-56 bg-white rounded-md shadow-lg py-1 border">
                     <Link
                       href="/profile"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
