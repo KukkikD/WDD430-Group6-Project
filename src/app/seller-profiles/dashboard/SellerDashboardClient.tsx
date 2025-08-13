@@ -85,7 +85,7 @@ export default function SellerDashboardClient({ products, sellerName }: Props) {
 
       {/* ➕ Button to add a new product */}
       <Link
-        href="/seller/dashboard/creates"
+        href="/seller-profiles/dashboard/creates"
         className="bg-green-800 text-white px-4 py-2 rounded mb-6 inline-block"
       >
         + Add New Product
@@ -112,7 +112,7 @@ export default function SellerDashboardClient({ products, sellerName }: Props) {
                   alt={p.name}
                   width={64}
                   height={64}
-                  className="rounded object-cover transistion-transform duration-300 hover:scale-125 hover:shadow-x5"
+                  className="rounded object-cover transition-transform duration-300 hover:scale-125 hover:shadow-x5"
                   style={{ height: "auto" }} // ✅ Add this line to avoid warning 
                 />
               </td>
@@ -122,7 +122,7 @@ export default function SellerDashboardClient({ products, sellerName }: Props) {
               <td className="d-none d-md-table-cell">{p.category || "Uncategorized"}</td>
               <td className="md:text-right max-sm:text-center space-x-4">
                 {/* 🔧 Edit product link */}
-                <Link href={`/seller/dashboard/edit/${p.id}`} className="text-blue-600 underline">
+                <Link href={`/seller-profiles/dashboard/edit/${p.id}`} className="text-blue-600 underline">
                   Edit
                 </Link>
                 {/* ❌ Delete product button component */}
