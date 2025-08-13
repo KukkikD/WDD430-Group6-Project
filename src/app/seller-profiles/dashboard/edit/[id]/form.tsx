@@ -37,7 +37,7 @@ export default function Form({ product }: { product: Product }) {
       }),
     });
 
-    router.push('/seller/dashboard');
+    router.push('/seller-profiles/dashboard');
   };
 
   return (

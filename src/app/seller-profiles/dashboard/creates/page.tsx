@@ -27,7 +27,7 @@ export default function CreateProduct() {
       }),
     });
 
-    router.push('/seller/dashboard');
+    router.push('/seller-profiles/dashboard');
   };
 
   return (
