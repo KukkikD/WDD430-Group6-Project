@@ -19,8 +19,8 @@ export const ProductGrid = ({products}: ProductGridProps) => {
                     })}
                 </div>
             ): (
-                <div className="flex flex-col items-center justify-center h-full text-center py-200">
-                    <p className="text-x1 font-semibold text-gray-600">No products found</p>
+                <div className="flex flex-col items-center justify-center h-full text-center py-20">
+                    <p className="text-xl font-semibold text-gray-600">No products found</p>
                     <p className="text-gray-500 mt-2">Try adjusting your filters or search terms.</p>
                 </div>
             )}

@@ -26,7 +26,7 @@ export default function FeaturedProducts() {
               className="rounded-md mb-4 object-contain w-full h-40 bg-white"
             />
             <h3 className="font-semibold">{name}</h3>
-            <p className="text-yellow-600 font-bold">{price}</p>
+            <p className="text-amber-800 font-bold">{price}</p>
             <p className="text-sm">⭐ {rating}</p>
           </div>
         ))}
