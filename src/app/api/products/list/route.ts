@@ -8,4 +8,4 @@ export async function GET() {
     include: { seller: { select: { name: true, id: true } } },
   });
   return NextResponse.json(products);
-} 
+}
