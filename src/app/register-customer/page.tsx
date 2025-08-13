@@ -13,10 +13,12 @@ export default function RegisterCustomerPage() {
     e.preventDefault();
     setError(null);
 
-    const res = await fetch('/api/register', {
+    const base = typeof window !== 'undefined' ? window.location.origin : '';
+    const res = await fetch(`${base}/api/register`, {
       method: 'POST',
-      headers: { 'Content-Type':'application/json' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password }),
+      cache: 'no-store',
     });
     console.log('POST /api/register ->', res.status); //track status 405
 

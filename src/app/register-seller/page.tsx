@@ -11,12 +11,14 @@ export default function RegisterSellerPage() {
     e.preventDefault();
     setError(null);
 
-    const res = await fetch('/api/register-seller', {
+    const base = typeof window !== 'undefined' ? window.location.origin : '';
+    const res = await fetch(`${base}/api/register-seller`, {
       method: 'POST',
-      headers: { 'Content-Type':'application/json' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
+      cache: 'no-store',
     });
-    console.log('register-seller status:', res.status); //track status 405
+    console.log('POST /api/register-seller ->', res.status); //track status 405
 
     const text = await res.text();                
     const data = text ? JSON.parse(text) : null;  
