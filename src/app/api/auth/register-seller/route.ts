@@ -1,53 +1,43 @@
-import { NextResponse } from "next/server";
-import prisma from "@/app/lib/prisma";
-import bcrypt from "bcrypt";
+import { NextRequest, NextResponse } from 'next/server';
+import prisma from '@/app/lib/prisma';
+import bcrypt from 'bcrypt';
 
-function normalizeEmail(raw: unknown): string {
-  return (raw ?? "").toString().trim().toLowerCase();
-}
-
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const name = (body?.name ?? "").toString().trim();
-    const email = normalizeEmail(body?.email);
-    const password = (body?.password ?? "").toString();
-    const bio = body?.bio ? body.bio.toString().trim() : null;
-    const profileImage = body?.profileImage ? body.profileImage.toString().trim() : null;
+    const { name, email, password } = await req.json();
 
+    // Basic validation
     if (!name || !email || !password) {
-      return NextResponse.json({ error: "Name, email and password are required" }, { status: 400 });
+      return NextResponse.json({ error: 'Name, email and password are required' }, { status: 400 });
     }
-
     if (password.length < 8) {
-      return NextResponse.json({ error: "Password must be at least 8 characters long" }, { status: 400 });
+      return NextResponse.json({ error: 'Password must be at least 8 characters' }, { status: 400 });
     }
 
-    const existing = await prisma.user.findUnique({ where: { email } });
-    if (existing) {
-      return NextResponse.json({ error: "User already exists" }, { status: 400 });
+    // normalize email
+    const normalizedEmail = String(email).trim().toLowerCase();
+
+    // check duplicate
+    const exists = await prisma.user.findUnique({ where: { email: normalizedEmail } });
+    if (exists) {
+      return NextResponse.json({ error: 'User already exists' }, { status: 400 });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashed = await bcrypt.hash(password, 10);
 
     const user = await prisma.user.create({
       data: {
-        name,
-        email,
-        password: hashedPassword,
-        role: "seller",       // 🔒 Force seller here
-        bio,
-        profileImage,
+        name: String(name).trim(),
+        email: normalizedEmail,
+        password: hashed,
+        role: 'customer', // force role = customer
       },
       select: { id: true, email: true, role: true },
     });
 
-    return NextResponse.json(
-      { message: "Seller account created successfully", user },
-      { status: 201 }
-    );
+    return NextResponse.json({ message: 'Registered', user }, { status: 201 });
   } catch (err) {
-    console.error("Register-seller error:", err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    console.error('Register customer error:', err);
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

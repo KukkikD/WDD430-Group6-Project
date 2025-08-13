@@ -1,70 +1,43 @@
-import { NextResponse } from "next/server";
-import prisma from "@/app/lib/prisma";
-import bcrypt from "bcrypt";
+import { NextRequest, NextResponse } from 'next/server';
+import prisma from '@/app/lib/prisma';
+import bcrypt from 'bcrypt';
 
-// Small helper to normalize and validate inputs
-function normalizeEmail(raw: unknown): string {
-  const email = (raw ?? "").toString().trim().toLowerCase();
-  return email;
-}
-
-function isStrongEnough(password: string) {
-  // 🔐 Minimum policy example: at least 8 chars, have letter and digit
-  return password.length >= 8 && /[A-Za-z]/.test(password) && /\d/.test(password);
-}
-
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const name = (body?.name ?? "").toString().trim();
-    const email = normalizeEmail(body?.email);
-    const password = (body?.password ?? "").toString();
-    const bio = body?.bio ? body.bio.toString().trim() : null;
-    const profileImage = body?.profileImage ? body.profileImage.toString().trim() : null;
+    const { name, email, password } = await req.json();
 
-    // Allow only these roles from public registration
-    const roleRaw = (body?.role ?? "customer").toString().trim().toLowerCase();
-    const role = roleRaw === "seller" ? "seller" : "customer"; // default to 'customer'
-
-    // ✅ Basic validation
+    // Basic validation
     if (!name || !email || !password) {
-      return NextResponse.json({ error: "Name, email and password are required" }, { status: 400 });
+      return NextResponse.json({ error: 'Name, email and password are required' }, { status: 400 });
     }
-    if (!isStrongEnough(password)) {
-      return NextResponse.json(
-        { error: "Password must be at least 8 characters and contain letters and numbers" },
-        { status: 400 }
-      );
+    if (password.length < 8) {
+      return NextResponse.json({ error: 'Password must be at least 8 characters' }, { status: 400 });
     }
 
-    // 🔎 Check duplicate
-    const existing = await prisma.user.findUnique({ where: { email } });
-    if (existing) {
-      return NextResponse.json({ error: "User already exists" }, { status: 400 });
+    // normalize email
+    const normalizedEmail = String(email).trim().toLowerCase();
+
+    // check duplicate
+    const exists = await prisma.user.findUnique({ where: { email: normalizedEmail } });
+    if (exists) {
+      return NextResponse.json({ error: 'User already exists' }, { status: 400 });
     }
 
-    // 🔐 Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashed = await bcrypt.hash(password, 10);
 
-    // 💾 Create user
     const user = await prisma.user.create({
       data: {
-        name,
-        email,
-        password: hashedPassword,
-        role,                 // "customer" | "seller"
-        bio,                  // optional
-        profileImage,         // optional
+        name: String(name).trim(),
+        email: normalizedEmail,
+        password: hashed,
+        role: 'customer', // force role = customer
       },
       select: { id: true, email: true, role: true },
     });
 
-    return NextResponse.json(
-      { message: "User registered", user },
-      { status: 201 }
-    );
+    return NextResponse.json({ message: 'Registered', user }, { status: 201 });
   } catch (err) {
-    console.error("Register error:", err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    console.error('Register customer error:', err);
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
