@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
 
-// ชั่วคราวเพื่อดีบักว่าแม็ปถูกจริง
+
 export function GET() {
-  return NextResponse.json({ ok: true, route: '/api/register' }, { status: 200 });
+  return NextResponse.json({ error: 'Method Not Allowed' }, { status: 405 });
 }
 
 export function OPTIONS() {
@@ -20,7 +20,7 @@ export function OPTIONS() {
 
 export async function POST(req: NextRequest) {
   try {
-    // 👉 โหลดตอนรัน เพื่อลดโอกาสพังจาก native binding
+   
     const [{ default: prisma }, { hash }] = await Promise.all([
       import('@/app/lib/prisma'),
       import('bcryptjs'),

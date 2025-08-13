@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export const runtime = 'nodejs';
 
 export function GET() {
-  return NextResponse.json({ ok: true, route: '/api/register-seller' }, { status: 200 });
+  return NextResponse.json({ error: 'Method Not Allowed' }, { status: 405 });
 }
 
 export function OPTIONS() {
