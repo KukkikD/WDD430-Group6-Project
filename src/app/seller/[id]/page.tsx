@@ -67,10 +67,9 @@ export default async function SellerProfilePage( { params }: { params: { id: str
                     <div className="text-center md:text-left">
                         <h1 className="text-3xl md:text-4xl font-bold text-gray-900">{seller.name}</h1>
                         <p className="">{seller.bio || "This seller has not provided a bio."}</p>
-
                     </div>
                 </header>
-
+                {/*Seller Products*/}
                 <section>
                     <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">{seller.name} Products</h2>
                     {seller.products && seller.products.length > 0 ? (
@@ -83,7 +82,6 @@ export default async function SellerProfilePage( { params }: { params: { id: str
                         <div className="text-center text-gray-500 py-10 bg-white rounded-lg shadow-sm">
                             <p>No products found for this seller.</p>
                         </div>
-                        
                     )}
                 </section>
             </div>
