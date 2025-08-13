@@ -65,24 +65,26 @@ export default function Navbar() {
               <Dropdown.Item href="/">Home</Dropdown.Item>
               <Dropdown.Item href="/shop">Shop</Dropdown.Item>
               <Dropdown.Item href="/seller-profile">Seller Profile</Dropdown.Item>
-              <Dropdown.Item href="/seller/dashboard">Dashboard</Dropdown.Item>
+              {session?.user?.role === 'seller' && (
+                <Dropdown.Item href="/seller/dashboard">Dashboard</Dropdown.Item>
+              )}
               <Dropdown.Item href="/AboutUs">About Us</Dropdown.Item>
               <Dropdown.Item href="/login">Log in</Dropdown.Item>
             </DropdownButton>
           </div>
 
           {/* Right: Auth & Cart */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center md:gap-4 gap-2">
             {status === 'loading' ? (
               <span className="d-none d-md-block text-gray-500">Loading...</span>
             ) : session ? (
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setShowDropdown(!showDropdown)}
-                  className="flex items-center gap-2 text-gray-700 hover:text-yellow-400 transition-colors"
+                  className="flex items-center md:gap-2 text-gray-700 hover:text-yellow-400 transition-colors"
                 >
                   <span>👤</span>
-                  <span>{session.user?.name || 'User'}</span>
+                  <span className='d-none d-md-block'>{session.user?.name || 'User'}</span>
                   <span>▼</span>
                 </button>
                 
@@ -93,17 +95,9 @@ export default function Navbar() {
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       onClick={() => setShowDropdown(false)}
                     >
-                      My Profile
+                      Profile
                     </Link>
-                    {session.user?.role === 'seller' && (
-                      <Link
-                        href="/seller/dashboard"
-                        className="block px-4 py-2 text-sm text-lg text-gray-700 hover:bg-gray-100"
-                        onClick={() => setShowDropdown(false)}
-                      >
-                        Seller Dashboard
-                      </Link>
-                    )}
+                    
                     <button
                       onClick={handleSignOut}
                       className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
@@ -120,7 +114,7 @@ export default function Navbar() {
             {/* Cart */}
             <Link
               href="/cart"
-              className="bg-gray-200 text-black px-4 py-1 rounded flex items-center space-x-2 hover:bg-gray-300"
+              className="bg-gray-200 text-black sm:px-2 md:px-4 py-1 rounded flex items-center space-x-2 hover:bg-gray-300"
             >
               <span>🛒</span>
               <span>({cartCount})</span>
