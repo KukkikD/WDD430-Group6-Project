@@ -16,9 +16,10 @@ export default function RegisterSellerPage() {
       headers: { 'Content-Type':'application/json' },
       body: JSON.stringify(form),
     });
+    console.log('register-seller status:', res.status); //track status 405
 
-    const text = await res.text();                // ✅ อ่านแบบกันพัง
-    const data = text ? JSON.parse(text) : null;  // ✅ body อาจว่างตอน 405
+    const text = await res.text();                
+    const data = text ? JSON.parse(text) : null;  
 
     if (!res.ok) {
       setError(data?.error || `Request failed: ${res.status}`);

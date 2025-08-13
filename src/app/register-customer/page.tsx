@@ -18,6 +18,7 @@ export default function RegisterCustomerPage() {
       headers: { 'Content-Type':'application/json' },
       body: JSON.stringify({ name, email, password }),
     });
+    console.log('POST /api/register ->', res.status); //track status 405
 
     // ✅ error message (when status 405 has no body)
     const text = await res.text();
