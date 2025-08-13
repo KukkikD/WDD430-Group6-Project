@@ -77,7 +77,7 @@ export default function SellerDashboardClient({ products, sellerName }: Props) {
   };
 
   return (
-    <main className="max-w-5xl mx-auto p-8">
+    <main className="max-w-5xl max-sm:text-center mx-auto p-8">
       <h1 className="text-3xl font-bold mb-6">Welcome, <span className="text-[#8f6b5d] font-serif italic text-4xl">{sellerName}!</span></h1>
 
       {/* ✅ Show success message when redirected with ?created=true */}
@@ -96,10 +96,10 @@ export default function SellerDashboardClient({ products, sellerName }: Props) {
         <thead className="bg-[#8f6b5d] text-white">
           <tr className="border-b font-semibold">
             <th className="py-2 px-2">Image</th>
-            <th className="py-2 px-4 cursor-pointer" onClick={() => handleSort("name")}><span className="flex items-center gap-1">Name {sortBy === "name" && (<span className="text-sm">{sortOrder === "asc" ? "↑" : "↓"}</span>)}</span></th>
-            <th>Description</th>
+            <th className="d-none d-md-table-cell py-2 px-4 cursor-pointer" onClick={() => handleSort("name")}><span className="flex items-center gap-1">Name {sortBy === "name" && (<span className="text-sm">{sortOrder === "asc" ? "↑" : "↓"}</span>)}</span></th>
+            <th className="d-none d-md-table-cell">Description</th>
             <th className="py-2 px-6 cursor-pointer" onClick={() => handleSort("price")}><span className="flex items-center gap-1">Price {sortBy === "price" && (<span className="text-sm">{sortOrder === "asc" ? "↑" : "↓"}</span>)}</span></th>
-            <th className="cursor-pointer" onClick={() => handleSort("category")}><span className="flex items-center gap-1">Category {sortBy === "category" && (<span className="text-sm">{sortOrder === "asc" ? "↑" : "↓"}</span>)}</span></th>
+            <th className="d-none d-md-table-cell cursor-pointer" onClick={() => handleSort("category")}><span className="flex items-center gap-1">Category {sortBy === "category" && (<span className="text-sm">{sortOrder === "asc" ? "↑" : "↓"}</span>)}</span></th>
             <th className="text-right py-2 px-1">Actions</th>
           </tr>
         </thead>
@@ -116,11 +116,11 @@ export default function SellerDashboardClient({ products, sellerName }: Props) {
                   style={{ height: "auto" }} // ✅ Add this line to avoid warning 
                 />
               </td>
-              <td className="py-2 px-4 font-semibold">{p.name}</td>
-              <td>{p.description}</td>
-              <td className="py-2 px-6 font-semibold text-right text-green-700">${p.price.toFixed(2)}</td>
-              <td>{p.category || "Uncategorized"}</td>
-              <td className="text-right space-x-4">
+              <td className="d-none d-md-table-cell py-2 px-4 font-semibold">{p.name}</td>
+              <td className="d-none d-md-table-cell">{p.description}</td>
+              <td className="py-2 px-6 font-semibold text-green-700">${p.price.toFixed(2)}</td>
+              <td className="d-none d-md-table-cell">{p.category || "Uncategorized"}</td>
+              <td className="md:text-right max-sm:text-center space-x-4">
                 {/* 🔧 Edit product link */}
                 <Link href={`/seller/dashboard/edit/${p.id}`} className="text-blue-600 underline">
                   Edit
