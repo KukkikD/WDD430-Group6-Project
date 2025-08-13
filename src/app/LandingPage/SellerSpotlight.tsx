@@ -1,8 +1,12 @@
+// src/app/LandingPage/SellerSpotlight.tsx
 import Image from 'next/image';
 import Link from 'next/link';
 import prisma from '@/app/lib/prisma';
 
-// ✅ 1. Correct Seller interface
+// ✅ Force this component to be dynamic on every request (avoid build-time static output)
+export const dynamic = 'force-dynamic'; // or: export const revalidate = 0;
+
+// ✅ Type for rendering
 interface Seller {
   id: string;
   name: string;
@@ -11,33 +15,43 @@ interface Seller {
 }
 
 export default async function SellerSpotlight() {
+  // ✅ 1) Don’t hide DB by default. If you still want the flag, default it to true.
+  const enableDb =
+    process.env.NEXT_PUBLIC_ENABLE_SELLER_SPOTLIGHT_DB === 'false' ? false : true;
+
   let sellers: Seller[] = [];
-  const enableDb = process.env.NEXT_PUBLIC_ENABLE_SELLER_SPOTLIGHT_DB === 'true';
 
   if (enableDb) {
     try {
-      const rawSellers = await prisma.user.findMany({
-        where: { role: 'seller' },
+      // ✅ 2) Case-insensitive role match in case some rows are 'Seller' / 'SELLER'
+      const raw = await prisma.user.findMany({
+        where: {
+          role: { equals: 'seller', mode: 'insensitive' },
+        },
         select: {
           id: true,
           name: true,
           bio: true,
           profileImage: true,
         },
+        // ⚠️ Prisma don't have orderBy random directly: fetch somegroup then random from JS
+        take: 50,
       });
 
-      sellers = rawSellers.map((seller) => ({
-        id: seller.id,
-        name: seller.name,
-        bio: seller.bio ?? undefined,
-        profileImage: seller.profileImage ?? undefined,
+      sellers = raw.map((u) => ({
+        id: u.id,
+        name: u.name,
+        bio: u.bio ?? undefined,
+        profileImage: u.profileImage ?? undefined,
       }));
     } catch (error) {
-      console.error('Database connection error:', error);
+      console.error('[SellerSpotlight] DB error -> fallback to mock:', error);
     }
+  } else {
+    console.warn('[SellerSpotlight] DB flag disabled -> using mock');
   }
 
-  // ✅ Fallback sellers if DB is disabled or failed
+  // ✅ 3) Fallback if DB close or not found seller 
   if (sellers.length === 0) {
     sellers = [
       {
@@ -55,8 +69,9 @@ export default async function SellerSpotlight() {
     ];
   }
 
-  const shuffled = sellers.sort(() => 0.5 - Math.random());
-  const randomSellers = shuffled.slice(0, 3);
+  // ✅ Random from JS
+  const shuffled = [...sellers].sort(() => 0.5 - Math.random());
+  const randomSellers = shuffled.slice(0, 2);
 
   return (
     <section className="bg-white py-4 px-4 md:min-w-[200px] md:w-[25%] h-full">
@@ -79,7 +94,9 @@ export default async function SellerSpotlight() {
             </div>
 
             <h3 className="text-lg font-semibold mb-2">{name}</h3>
-            <p className="text-sm text-gray-600 mb-4">{bio || 'No bio available.'}</p>
+            <p className="text-sm text-gray-600 mb-4">
+              {bio || 'No bio available.'}
+            </p>
 
             <Link href={`/seller-profile/${id}`}>
               <button className="bg-green-800 text-white px-4 py-2 rounded hover:bg-green-900 transition">

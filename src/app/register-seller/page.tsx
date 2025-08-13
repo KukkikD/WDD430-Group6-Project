@@ -11,6 +11,7 @@ export default function RegisterSellerPage() {
     profileImage: "",
     bio: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -85,15 +86,25 @@ export default function RegisterSellerPage() {
             onChange={handleChange}
             className="w-full p-2 border border-stone-300 rounded bg-stone-100 placeholder-stone-500"
           />
-          <input
-            name="password"
-            type="password"
-            required
-            placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
-            className="w-full p-2 border border-stone-300 rounded bg-stone-100 placeholder-stone-500"
-          />
+          <div className="relative">
+            <input
+              name="password"
+              type={showPassword ? "text" : "password"}
+              required
+              placeholder="Password"
+              value={form.password}
+              onChange={handleChange}
+              className="w-full p-2 pr-12 border border-stone-300 rounded bg-stone-100 placeholder-stone-500"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+              tabIndex={-1}
+            >
+              {showPassword ? "👁️" : "👁️‍🗨️"}
+            </button>
+          </div>
           <input
             name="profileImage"
             type="url"

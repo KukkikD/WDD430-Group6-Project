@@ -5,7 +5,7 @@ import { compare } from "bcryptjs";
 import type { Session, User } from "next-auth";
 import type { JWT } from "next-auth/jwt";
 
-// ✅ Define a custom user interface to include user role
+// ✅ Extend User shape we return from authorize to include role
 interface CustomUser extends User {
   role: string;
 }
@@ -18,38 +18,51 @@ export const authOptions: AuthOptions = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      // ✅ Authorize user by verifying email and password
+      // ✅ Validate user credentials here
       async authorize(credentials) {
-        // Find user by email
-        const user = await prisma.user.findUnique({
-          where: { email: credentials?.email },
-        });
+        // 1) Normalize email so "Foo@Bar.com " matches stored value
+        const email = (credentials?.email ?? "").trim().toLowerCase();
+        const password = credentials?.password ?? "";
 
-        // Return error if user is not found or missing password
-        if (!user || !user.password) throw new Error("Invalid email or password");
+        if (!email || !password) {
+          throw new Error("Email and password are required");
+        }
 
-        // Compare hashed password with provided password
-        const isValid = await compare(credentials!.password, user.password);
-        if (!isValid) throw new Error("Invalid email or password");
+        // 2) Fetch user by normalized email
+        const user = await prisma.user.findUnique({ where: { email } });
+        if (!user || !user.password) {
+          throw new Error("Invalid email or password");
+        }
 
-        // Return user object with additional role information
+        // 3) Compare password with the hashed one
+        const isValid = await compare(password, user.password);
+        if (!isValid) {
+          throw new Error("Invalid email or password");
+        }
+
+        // 4) Return the minimal user payload you want in JWT
         return {
           id: user.id,
           email: user.email,
           name: user.name,
-          role: user.role,
+          role: user.role, // e.g. "customer" | "seller" | "admin"
         };
       },
     }),
   ],
+
+  // ✅ Store session in a signed, httpOnly cookie (JWT strategy)
   session: {
-    strategy: "jwt", // ✅ Use JWT-based session stored in httpOnly cookie
+    strategy: "jwt",
   },
+
+  // ✅ Use your custom login page
   pages: {
-    signIn: "/login", // ✅ Redirect to custom login page
+    signIn: "/login",
   },
+
   callbacks: {
-    // ✅ Include role and ID in the JWT token
+    // ✅ Put id & role into the JWT
     async jwt({ token, user }: { token: JWT; user?: CustomUser }) {
       if (user) {
         token.id = user.id;
@@ -57,13 +70,24 @@ export const authOptions: AuthOptions = {
       }
       return token;
     },
-    // ✅ Attach role and ID to the session object on the client
+
+    // ✅ Expose id & role on the client-side session
     async session({ session, token }: { session: Session; token: JWT }) {
-      if (token && session.user) {
-        session.user.id = token.id as string;
-        session.user.role = token.role as string;
+      if (session.user) {
+        // Type-safe after we add module augmentation (see next-auth.d.ts below)
+        session.user.id = (token.id as string) ?? "";
+        session.user.role = (token.role as string) ?? "customer";
       }
       return session;
+    },
+
+    // ✅ Redirect users based on role after sign-in/endpoints that call `NextAuth`
+    async redirect({ url, baseUrl }) {
+      // If url is already relative or same-origin, let it pass through
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      if (new URL(url).origin === baseUrl) return url;
+      // Default: stay on baseUrl
+      return baseUrl;
     },
   },
 };
