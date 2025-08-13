@@ -6,7 +6,6 @@ export async function POST(req: NextRequest) {
   try {
     const { name, email, password } = await req.json();
 
-    // Basic validation
     if (!name || !email || !password) {
       return NextResponse.json({ error: 'Name, email and password are required' }, { status: 400 });
     }
@@ -14,10 +13,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Password must be at least 8 characters' }, { status: 400 });
     }
 
-    // normalize email
     const normalizedEmail = String(email).trim().toLowerCase();
 
-    // check duplicate
     const exists = await prisma.user.findUnique({ where: { email: normalizedEmail } });
     if (exists) {
       return NextResponse.json({ error: 'User already exists' }, { status: 400 });
@@ -30,7 +27,7 @@ export async function POST(req: NextRequest) {
         name: String(name).trim(),
         email: normalizedEmail,
         password: hashed,
-        role: 'customer', // force role = customer
+        role: 'customer', // force customer
       },
       select: { id: true, email: true, role: true },
     });
@@ -40,4 +37,9 @@ export async function POST(req: NextRequest) {
     console.error('Register customer error:', err);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
+}
+
+// (optional) respons 200 instead of  405
+export async function OPTIONS() {
+  return NextResponse.json({ ok: true });
 }

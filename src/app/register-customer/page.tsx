@@ -3,8 +3,8 @@ import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function RegisterCustomerPage() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState(''); 
+  const [email, setEmail] = useState(''); 
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string|null>(null);
   const router = useRouter();
@@ -15,13 +15,19 @@ export default function RegisterCustomerPage() {
 
     const res = await fetch('/api/auth/register', {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
+      headers: { 'Content-Type':'application/json' },
       body: JSON.stringify({ name, email, password }),
     });
 
-    const data = await res.json();
-    if (res.ok) router.push('/login');
-    else setError(data.error || 'Registration failed');
+    // ✅ error message (when status 405 has no body)
+    const text = await res.text();
+    const data = text ? JSON.parse(text) : null;
+
+    if (!res.ok) {
+      setError(data?.error || `Request failed: ${res.status}`);
+      return;
+    }
+    router.push('/login');
   };
 
   return (

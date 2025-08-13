@@ -4,9 +4,8 @@ import bcrypt from 'bcrypt';
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, password } = await req.json();
+    const { name, email, password, profileImage, bio } = await req.json();
 
-    // Basic validation
     if (!name || !email || !password) {
       return NextResponse.json({ error: 'Name, email and password are required' }, { status: 400 });
     }
@@ -14,10 +13,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Password must be at least 8 characters' }, { status: 400 });
     }
 
-    // normalize email
     const normalizedEmail = String(email).trim().toLowerCase();
 
-    // check duplicate
     const exists = await prisma.user.findUnique({ where: { email: normalizedEmail } });
     if (exists) {
       return NextResponse.json({ error: 'User already exists' }, { status: 400 });
@@ -30,14 +27,20 @@ export async function POST(req: NextRequest) {
         name: String(name).trim(),
         email: normalizedEmail,
         password: hashed,
-        role: 'customer', // force role = customer
+        role: 'seller', // force seller
+        profileImage: profileImage || null,
+        bio: bio || null,
       },
       select: { id: true, email: true, role: true },
     });
 
-    return NextResponse.json({ message: 'Registered', user }, { status: 201 });
+    return NextResponse.json({ message: 'Seller registered', user }, { status: 201 });
   } catch (err) {
-    console.error('Register customer error:', err);
+    console.error('Register seller error:', err);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
+}
+
+export async function OPTIONS() {
+  return NextResponse.json({ ok: true });
 }
