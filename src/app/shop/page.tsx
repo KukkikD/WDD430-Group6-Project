@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { Product } from '@prisma/client';
-import { Filters } from './components/Filters';
-import { ProductGrid } from './components/ProductGrid';
+import { Filters } from '@/app/components/Filters';
+import { ProductGrid } from '@/app/components/ProductGrid';
 
 // main component
 export default function ShopPage() {
@@ -64,7 +64,7 @@ export default function ShopPage() {
     if (error) return <div className="text-center py-20 text-red-500">Error: {error}</div>;
     if (filteredProducts.length === 0) return <div className="text-center py-20">No products found.</div>;
 
-    return(
+    return (
         <div className="bg-gray-50 min-h-screen">
             <div className="container mx-auto px-4 py-12">
                 <div className="text-center mb-12">

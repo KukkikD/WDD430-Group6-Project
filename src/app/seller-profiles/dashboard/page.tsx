@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/app/lib/auth";
 import prisma from "@/app/lib/prisma";
-import SellerDashboardClient from "@/app/seller/dashboard/SellerDashboardClient";
+import SellerDashboardClient from "@/app/seller-profiles/dashboard/SellerDashboardClient";
 import { Suspense } from "react";
 
 export default async function SellerDashboardPage() {
@@ -34,7 +34,7 @@ export default async function SellerDashboardPage() {
       <SellerDashboardClient
         products={products}
         sellerName={sellerName} totalSales={0} ordersCount={0}        //totalSales={totalSales}
-        //ordersCount={ordersCount}
+      //ordersCount={ordersCount}
       />
 
       <div className="max-w-4xl mx-auto mt-8 px-4">

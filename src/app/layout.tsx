@@ -6,7 +6,7 @@ import { CartProvider } from '@/app/context/CartContext';
 import { ReactNode } from 'react';
 import Navbar from '@/ui/components/Navbar';
 import Footer from '@/ui/components/Footer';
-import ClientSessionProvider from '../components/ClientSessionProvider';
+import ClientSessionProvider from './components/ClientSessionProvider';
 
 
 export const metadata: Metadata = {
@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <Footer />
             </div>
           </CartProvider>
-        </ClientSessionProvider>  
+        </ClientSessionProvider>
       </body>
     </html>
   );

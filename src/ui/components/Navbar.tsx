@@ -7,9 +7,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
 import { useSession, signOut } from 'next-auth/react';
+import { useCart } from '@/app/hooks/useCart';
 
 export default function Navbar() {
-  const [cartCount] = useState(3); // TODO: "setCartCount" will be used when implementing cart updates
+  const { items } = useCart();
+  const cartCount = items.reduce((sum, i) => sum + i.qty, 0);
   const { data: session, status } = useSession();
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -55,7 +57,7 @@ export default function Navbar() {
             <ul className="d-none d-md-flex flex-1 md:flex-wrap justify-center md:gap-6 text-lg text-gray-700">
               <li className="whitespace-nowrap"><Link href="/" className="text-gray-700 hover:text-yellow-400 transition-colors duration-200 no-underline">Home</Link></li>
               <li className="whitespace-nowrap"><Link href="/shop" className="text-gray-700 hover:text-yellow-400">Shop</Link></li>
-              <li className="whitespace-nowrap"><Link href="/seller-profile" className="text-gray-700 hover:text-yellow-400">Seller Profile</Link></li>
+              <li className="whitespace-nowrap"><Link href="/seller-profiles" className="text-gray-700 hover:text-yellow-400">Seller Profiles</Link></li>
               {session?.user?.role === 'seller' && (
                 <li className="whitespace-nowrap"><Link href="/seller/dashboard" className="text-gray-700 hover:text-yellow-400">Dashboard</Link></li>
               )}

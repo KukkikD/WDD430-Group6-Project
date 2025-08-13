@@ -98,7 +98,7 @@ export default async function SellerSpotlight() {
               {bio || 'No bio available.'}
             </p>
 
-            <Link href={`/seller-profile/${id}`}>
+            <Link href={`/seller/${id}`}>
               <button className="bg-green-800 text-white px-4 py-2 rounded hover:bg-green-900 transition">
                 View Shop
               </button>

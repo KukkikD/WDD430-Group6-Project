@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import SuccessMessage from "@/components/SuccessMessage"; // ✅ Client component to show success toast/message
-import DeleteProductButton from "@/components/DeleteProductButton";
+import SuccessMessage from "@/app/components/SuccessMessage"; // ✅ Client component to show success toast/message
+import DeleteProductButton from "@/app/components/DeleteProductButton";
 import Image from "next/image";
 
 interface Product {
