@@ -41,7 +41,7 @@ export default function Navbar() {
             <Image
               src="/images/logo.png"
               alt="Handcrafted Haven Logo"
-              width={140}
+              width={250}
               height={50}
               priority
               className="h-auto"
