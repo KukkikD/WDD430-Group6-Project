@@ -7,7 +7,7 @@ export const Team = [
     },
     {
         image : "https://media.licdn.com/dms/image/v2/C4E03AQHQU2k6Dx8fFQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1659363354502?e=1758153600&v=beta&t=43e6hrPj8-6XMZYHzTfZceHsY5LTtGd3McW493bjfvQ",
-        fullName:"Amornrat Dizon",
+        fullName:"Amornrat Dizon Howard",
         projectRole:"Project Manager / Designer",
         linkedIn : "https://th.linkedin.com/in/amornratdizon"
     },
